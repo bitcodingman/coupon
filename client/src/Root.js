@@ -24,8 +24,10 @@ class Root extends Component {
           return false;
         }
         const userInfo = {
+          userId: data.data.userId,
           userType: data.data.userType,
           email: data.data.email,
+          barcode: data.data.barcode,
         };
         AuthActions.authSuccess(userInfo);
         return true;

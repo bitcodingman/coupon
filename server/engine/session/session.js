@@ -138,7 +138,6 @@ var m_Session = {
         }
 
         _req.session[_division] = _json;
-
         _req.session.save(function() {
             if (_callback) {
                 _callback();

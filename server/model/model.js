@@ -1,4 +1,4 @@
 module.exports = {
-    user: require('./user/__init__.js'), 
+    user: require('./user/__init__.js'),
+    store: require('./store/__init__.js'),
 };
- 

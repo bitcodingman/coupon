@@ -22,8 +22,10 @@ class LoginContainer extends Component {
           return false;
         }
         const userInfo = {
+          userId: data.data.user_id,
           userType: data.data.user_type,
           email: data.data.email,
+          barcode: data.data.barcode,
         };
         AuthActions.authSuccess(userInfo);
         history.push('/');

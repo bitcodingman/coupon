@@ -64,6 +64,7 @@ router.post('/signin', (req, res) => {
         }
 
         var u_session = model.user.session.get_info();
+        u_session['userId'] = r['user_id'];
         u_session['userType'] = r['user_type'];
         u_session['email'] = r['email'];
 

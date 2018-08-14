@@ -3,6 +3,7 @@
 var user_session = {
     get_info() {
         return {
+            userId: null,
             userType: null,
             email: null,
             barcode: null,

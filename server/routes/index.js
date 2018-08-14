@@ -5,4 +5,8 @@ const router = express.Router();
 const account = require('./account');
 router.use('/account', account);
 
+// store
+const store = require('./store');
+router.use('/store', store);
+
 module.exports = router;

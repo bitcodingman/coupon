@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import Button from '../Button';
+import { FiMenu, FiLogIn, FiLogOut } from 'react-icons/fi';
+import './Header.scss';
 
 class Header extends Component {
   render() {
     const { isLoggedIn, onLogout } = this.props;
     const loginButton = (
-      <li>
-        <NavLink to="/login">Login</NavLink>
-      </li>
+      <NavLink to="/login" className="HeaderIcon">
+        <FiLogIn />
+      </NavLink>
     );
     const logoutButton = (
-      <li>
-        <Button type="button" onClick={() => onLogout()}>
-          Logout
-        </Button>
-      </li>
+      <div className="HeaderIcon" onClick={() => onLogout()}>
+        <FiLogOut />
+      </div>
     );
     return (
-      <div>
-        <ul>
-          <li>
-            <NavLink to="/" activeClassName="active">
-              Home
-            </NavLink>
-          </li>
-          {isLoggedIn ? logoutButton : loginButton}
-        </ul>
-        <hr />
-      </div>
+      <header className="Header">
+        <div className="left">
+          <div className="HeaderIcon">
+            <FiMenu />
+          </div>
+        </div>
+        <div className="center">
+          <NavLink to="/" className="logo">
+            Logo
+          </NavLink>
+        </div>
+        <div className="right">{isLoggedIn ? logoutButton : loginButton}</div>
+      </header>
     );
   }
 }

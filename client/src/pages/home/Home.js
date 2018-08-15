@@ -1,22 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  HomeContainer,
-  CustomerContainer,
-  StoreContainer,
-} from '../../containers';
+import { Redirect } from 'react-router-dom';
+import { HomeContainer } from '../../containers';
 
 const Home = ({ isLoggedIn, currentUser }) => (
   <div>
     {isLoggedIn ? (
-      <h2>
-        Hello, {currentUser.email}!
+      <div>
         {currentUser.userType === 0 ? (
-          <CustomerContainer />
+          <Redirect to="/Customer" />
         ) : (
-          <StoreContainer />
+          <Redirect to="/store" />
         )}
-      </h2>
+      </div>
     ) : (
       <HomeContainer />
     )}

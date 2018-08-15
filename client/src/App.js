@@ -9,10 +9,12 @@ class App extends Component {
     return (
       <div>
         <Header onLogout={onLogout} isLoggedIn={isLoggedIn} />
-        <Route exact path="/" component={Home} />
-        <Route exact path="/store" component={Store} />
-        <Route exact path="/customer" component={Customer} />
-        <Route path="/login" component={Login} />
+        <div className="container">
+          <Route exact path="/" component={Home} />
+          <Route exact path="/store" component={Store} />
+          <Route exact path="/customer" component={Customer} />
+          <Route path="/login" component={Login} />
+        </div>
       </div>
     );
   }

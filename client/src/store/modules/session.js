@@ -56,9 +56,11 @@ export const logout = () => dispatch => {
       if (data.is_err === true) {
         return alert(data.msg);
       }
-      return dispatch({
+      dispatch({
         type: SESSION_FAILURE,
       });
+      window.location.href = 'http://localhost:3001';
+      return true;
     })
     .catch(error => {
       throw error;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from '../Button';
+import Button from '../../common/Button';
 import './LoginBox.scss';
 
 class LoginBox extends Component {
@@ -17,8 +17,8 @@ class LoginBox extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
-    const { onSubmit } = this.props;
-    onSubmit(email, password);
+    const { onSubmit, redirect } = this.props;
+    onSubmit(email, password, redirect);
   };
 
   render() {

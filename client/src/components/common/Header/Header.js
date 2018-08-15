@@ -25,16 +25,6 @@ class Header extends Component {
               Home
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/counter" activeClassName="active">
-              Counter
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/todos" activeClassName="active">
-              Todos
-            </NavLink>
-          </li>
           {isLoggedIn ? logoutButton : loginButton}
         </ul>
         <hr />

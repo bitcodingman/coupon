@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Home, Login, Counter, Todos, Store, Customer } from './containers';
-import Header from './components/Header';
+import { Home, Login, Store, Customer } from './pages';
+import Header from './components/common/Header';
 
 class App extends Component {
   render() {
@@ -13,8 +13,6 @@ class App extends Component {
         <Route exact path="/store" component={Store} />
         <Route exact path="/customer" component={Customer} />
         <Route path="/login" component={Login} />
-        <Route path="/counter" component={Counter} />
-        <Route path="/todos" component={Todos} />
       </div>
     );
   }

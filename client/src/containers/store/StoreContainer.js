@@ -50,6 +50,6 @@ class StoreContainer extends Component {
   }
 }
 
-export default connect(({ auth }) => ({
-  userId: auth.getIn(['status', 'currentUser', 'userId']),
+export default connect(({ session }) => ({
+  userId: session.status.currentUser.userId,
 }))(StoreContainer);

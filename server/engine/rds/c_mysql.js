@@ -1,6 +1,17 @@
 'use strict';
+ 
+/***
+ * 
+ Pool을 사요하도록 하는 이유 : 
+Mysql DB서버에 Connection을 맺고
+계속 쿼리를 날렸었는데 , 오랫동안 서버가 켜져 있다 보니까
+Connection이 끊어지면서 서버가 다운되는 현상이 있었습니다.
 
-var mysql = require('mysql');
+그래서 사전에 일정량의 Connection 객체를 만들어 모아두고,
+사용이 끝난 Connection 객체를 나중에 다시 재사용 가능하도록 하는 Connection Pool을 이용해
+속도도 향상시키고 서버가 다운되지도 않도록 해보았습니다.  
+
+*/
 
 class rds_Interface {
     /**
@@ -62,14 +73,17 @@ class c_mysql extends rds_Interface {
             return true;
         }
 
-        this._d = mysql.createConnection({
+        var mysql = require('mysql');  
+
+        this._d = mysql.createPool({
+            connectionLimit: 100, //important
             host: this._dsn.host,
             user: this._dsn.user,
             password: this._dsn.password,
             port: this._dsn.port,
             database: this._dsn.database,
         });
-
+ 
         if (this._d == undefined) {
             return false;
         }
@@ -88,36 +102,46 @@ class c_mysql extends rds_Interface {
             return null;
         }
 
-        this._d.query(_sql, _values, function(err, rows) {
-            if (err) throw err;
+        this._d.getConnection(function(err, conn) {
 
-            if (rows.length != 1) {
-                return _callback(true, []);
-            }
+            if (err) { 
+                conn.release();
+                return _callback(true, err);
+            } 
 
-            return _callback(err, rows[0]);
-        });
+            conn.query(_sql, _values, function (err, rows) {
+                conn.release();    
+                
+                if (err) { return _callback(true, err); } 
 
+                if (rows.length != 1) {
+                    return _callback(true, []);
+                }
+
+                return _callback(err, rows[0]);
+            }); 
+        }); 
     }
 
     rows(_sql, _values, _callback) {
         if (this.is_d() == false) {
             return null;
         }
+  
+        this._d.getConnection(function(err, conn) {
 
-        // createConnection 이후에는 별도의 connect가 불필요 하다.
-        // this._d.connect(function(err) {
-        //     if (err) {
-        //       console.error('error connecting: ' + err.stack);
-        //       return;
-        //     }
-        // });
+            if (err) { 
+                conn.release();
+                return _callback(true, err); 
+            } 
 
-        this._d.query(_sql, _values, function(err, rows) {
-            if (err) throw err;
+            conn.query(_sql, _values, function (err, rows) {
+                conn.release();
 
-            _callback(err, rows);
-            //console.log('The solution is: ', rows);
+                if (err) { return _callback(true, err); } 
+
+                return _callback(err, rows);
+            }); 
         });
     }
 
@@ -126,12 +150,22 @@ class c_mysql extends rds_Interface {
             return null;
         }
 
-        this._d.query(_sql, _values, function(err, rows) {
-            if (err) throw err;
+        this._d.getConnection(function(err, conn) {
+            if (err) { 
+                conn.release(); //해제 하지 않는다면, 쿼리가 끝났다고 하더라도 connection은 계속 살아 있을 것이고,
+                            // 머지 않아 빠르게 connection이 full 나는 상황이 오게 될 겁니다. 
+                return _callback(true, err); 
+            } 
 
-            _callback(err, rows);
+            conn.query(_sql, _values, function (err, rows) {
+                conn.release();
 
-            // rows.insertId  auto_increment 반환 <Insert인 경우>
+                if (err) { 
+                    return _callback(true, err); 
+                } 
+
+                return _callback(err, rows);
+            }); 
         });
     }
 }

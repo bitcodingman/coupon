@@ -23,7 +23,7 @@
 		justify-content: center;
 		align-items: center;
 		.logo {
-			color: $txt-hover;
+			color: $icon-hover;
 		}
 	}
 	.right {
@@ -35,8 +35,9 @@
 	.HeaderIcon {
 		height: 2rem;
 		cursor: pointer;
+		color: $icon-base;
 		&:hover {
-			color: $txt-hover;
+			color: $icon-hover;
 		}
 	}
 }

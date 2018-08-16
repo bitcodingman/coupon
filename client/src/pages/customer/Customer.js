@@ -1,6 +1,6 @@
 import React from 'react';
-import { CustomerContainer } from '../../containers';
+import { CustomerContainer } from 'containers';
 
-const Login = () => <CustomerContainer />;
+const Customer = () => <CustomerContainer />;
 
-export default Login;
+export default Customer;

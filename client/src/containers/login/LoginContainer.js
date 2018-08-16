@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoginBox from '../../components/login/LoginBox';
-import { SessionActions } from '../../store/actionCreator';
+import LoginBox from 'components/login/LoginBox';
+import { SessionActions } from 'store/actionCreator';
 
 class LoginContainer extends Component {
   redirect = () => {
@@ -10,7 +10,17 @@ class LoginContainer extends Component {
   };
 
   handleLogin = (email, password, redirect) => {
-    SessionActions.login(email, password, redirect);
+    if (!email) {
+      alert('아이디를 입력하세요.');
+      return false;
+    }
+
+    if (!password) {
+      alert('비밀번호를 입력하세요.');
+      return false;
+    }
+
+    return SessionActions.login(email, password, redirect);
   };
 
   render() {

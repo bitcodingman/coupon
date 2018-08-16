@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LoginContainer } from '../../containers';
+import { LoginContainer } from 'containers';
 
 class Login extends Component {
   handleRedirect = () => {

@@ -10,7 +10,7 @@ const config = () => {
     window.__REDUX_DEVTOOLS_EXTENSION__();
 
   const middleware = applyMiddleware(ReduxThunk);
-
+ 
   const store = createStore(
     modules,
     compose(

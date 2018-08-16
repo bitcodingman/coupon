@@ -107,6 +107,8 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "cross-env": "^5.2.0"
+    "add": "^2.0.6",
+    "cross-env": "^5.2.0",
+    "yarn": "^1.9.4"
   }
 }

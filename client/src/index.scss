@@ -1,5 +1,6 @@
 @import "_common";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+// @import url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
 
 * {
 	box-sizing: border-box;
@@ -24,6 +25,8 @@ ul {
 	padding: 0;
 }
 
+h1, h2, h3, p, span, em, i { font-weight: 300; margin: 0; padding: 0; }
+
 input {
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -34,4 +37,4 @@ a {
 	color: $txt-base;
 }
 
-.container { margin-top: 50px; width: 100%; }
+.container { margin-top: 20px; width: 100%; }

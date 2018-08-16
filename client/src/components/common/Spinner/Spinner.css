@@ -10,7 +10,7 @@ height: 40px;
 }
 
 .spinner > div {
-background-color: red;
+background-color: #fff;
 height: 100%;
 width: 6px;
 display: inline-block;

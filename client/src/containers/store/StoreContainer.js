@@ -32,6 +32,16 @@ class StoreContainer extends Component {
     const { storeInfo } = this.state;
     return (
       <div>
+        <div>
+          <div>
+            <p>우리매장 스탬프</p>
+            <div>3개</div>
+          </div>
+          <div>
+            <p>적립중인 회원</p>
+            <div>12명</div>
+          </div>
+        </div>
         <h2>매장회원페이지 입니다!</h2>
         <ul>
           <li>매장 이름: {storeInfo.store_name}</li>
@@ -50,6 +60,6 @@ class StoreContainer extends Component {
   }
 }
 
-export default connect(({ auth }) => ({
-  userId: auth.getIn(['status', 'currentUser', 'userId']),
+export default connect(({ session }) => ({
+  userId: session.status.currentUser.userId,
 }))(StoreContainer);

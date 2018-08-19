@@ -6,6 +6,7 @@ var user_session = {
             userId: null,
             userType: null,
             email: null,
+            name: null,
             barcode: null,
         };
     },

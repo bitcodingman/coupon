@@ -10,14 +10,16 @@ router.get('/getsession', (req, res) => {
     const sessionData = model.user.session.get(req);
     if (!is_empty(sessionData)) {
         return res.json({
-            is_err: false,
+            logged: true,
+            isErr: false,
             msg: '세션데이터가 존재합니다.',
             data: sessionData,
         });
     }
 
     return res.json({
-        is_err: true,
+        logged: false,
+        isErr: true,
         msg: '세션데이터가 없습니다.',
         data: {},
     });
@@ -27,7 +29,8 @@ router.get('/getsession', (req, res) => {
 router.post('/signin', (req, res) => {
     if (!req.body.email) {
         return res.json({
-            is_err: true,
+            logged: false,
+            isErr: true,
             msg: '아이디(이메일)를 입력하세요.',
             data: {},
         });
@@ -35,7 +38,8 @@ router.post('/signin', (req, res) => {
 
     if (!req.body.password) {
         return res.json({
-            is_err: true,
+            logged: false,
+            isErr: true,
             msg: '패스워드를 입력하세요.',
             data: {},
         });
@@ -49,7 +53,8 @@ router.post('/signin', (req, res) => {
     model.user.user.get(query, (err, r) => {
         if (err) {
             return res.json({
-                is_err: true,
+                logged: false,
+                isErr: true,
                 msg: '계정정보를 찾을 수 없습니다.',
                 data: {},
             });
@@ -57,20 +62,24 @@ router.post('/signin', (req, res) => {
 
         if (r.pw != reqPassword) {
             return res.json({
-                is_err: true,
+                logged: false,
+                isErr: true,
                 msg: '비밀번호를 확인하세요.',
                 data: {},
             });
         }
 
         var u_session = model.user.session.get_info();
-        u_session['userId'] = r['user_id'];
-        u_session['userType'] = r['user_type'];
+        u_session['userId'] = r['userId'];
+        u_session['userType'] = r['userType'];
         u_session['email'] = r['email'];
+        u_session['name'] = r['name'];
+        u_session['barcode'] = r['barcode'];
 
         model.user.session.set(req, u_session, () => {
             return res.json({
-                is_err: false,
+                logged: true,
+                isErr: false,
                 msg: '로그인 성공',
                 data: r,
             });
@@ -86,7 +95,8 @@ router.post('/signup', (req, res) => {
 router.post('/logout', (req, res) => {
     engine.session.del(req, () => {
         return res.json({
-            is_err: false,
+            logged: false,
+            isErr: false,
             msg: '로그아웃 성공',
             data: {},
         });

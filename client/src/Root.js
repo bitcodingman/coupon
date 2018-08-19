@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from 'App';
-import { SessionActions } from 'store/actionCreator';
-import Spinner from 'components/common/Spinner';
+import { Provider } from 'react-redux';
+import configure from 'store/configure';
+
+const store = configure();
 
 class Root extends Component {
-  componentDidMount() {
-    SessionActions.getSession();
-  }
-
   render() {
-    const { loading, isLoggedIn } = this.props;
     return (
-      <BrowserRouter>
-        {loading ? <Spinner /> : <App isLoggedIn={isLoggedIn} />}
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
   }
-} 
+}
 
-export default connect(({ session }) => ({
-  loading: session.loading,
-  isLoggedIn: session.status.isLoggedIn,
-}))(Root);
+export default Root;

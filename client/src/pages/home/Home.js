@@ -1,17 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { compose } from 'redux';
 import { HomeContainer } from 'containers';
 
-const Home = ({ isLoggedIn, currentUser }) => (
+const Home = ({ logged, userType, history }) => (
   <div>
-    {isLoggedIn ? (
+    {logged ? (
       <div>
-        {currentUser.userType === 0 ? (
-          <Redirect to="/customer" />
-        ) : (
-          <Redirect to="/store/stamp" />
-        )}
+        {userType === 0
+          ? history.push('/customer')
+          : history.push('/store/stamp')}
       </div>
     ) : (
       <HomeContainer />
@@ -19,7 +18,10 @@ const Home = ({ isLoggedIn, currentUser }) => (
   </div>
 );
 
-export default connect(({ session }) => ({
-  isLoggedIn: session.status.isLoggedIn,
-  currentUser: session.status.currentUser,
-}))(Home);
+export default compose(
+  withRouter,
+  connect(({ base }) => ({
+    logged: base.logged,
+    userType: base.data.userType,
+  }))
+)(Home);

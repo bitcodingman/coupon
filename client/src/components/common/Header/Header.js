@@ -5,14 +5,14 @@ import './Header.scss';
 
 class Header extends Component {
   render() {
-    const { isLoggedIn, onLogout } = this.props;
+    const { logged, onLogout } = this.props;
     const loginButton = (
       <NavLink to="/login" className="HeaderIcon">
         <FiLogIn />
       </NavLink>
     );
     const logoutButton = (
-      <div className="HeaderIcon" onClick={() => onLogout()}>
+      <div className="HeaderIcon" onClick={onLogout}>
         <FiLogOut />
       </div>
     );
@@ -28,7 +28,7 @@ class Header extends Component {
             Logo
           </NavLink>
         </div>
-        <div className="right">{isLoggedIn ? logoutButton : loginButton}</div>
+        <div className="right">{logged ? logoutButton : loginButton}</div>
       </header>
     );
   }

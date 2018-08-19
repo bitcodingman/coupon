@@ -1,4 +1,4 @@
-@import "../../../_common.scss";
+@import "utils";
 
 .Header {
 	position: fixed;
@@ -12,6 +12,7 @@
 	padding: 0 1.5rem;
 	font-size: 2rem;
 	line-height: 2rem;
+	z-index: 10;
 	.left {
 		width: 2rem;
 		display: flex;

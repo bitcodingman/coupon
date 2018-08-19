@@ -28,7 +28,7 @@ var m_Session = {
         var info = config.session[_session];
 
         var cookie = {
-            maxAge: 1000 * 60 * 60 * 1, // 쿠키 유효기간 1시간
+            maxAge: 1000 * 60 * 60 * 12, // 쿠키 유효기간 12시간
         };
 
         if (info['driver'] == 'mysql') {

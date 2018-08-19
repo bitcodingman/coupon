@@ -6,8 +6,8 @@ var store = {
         var where_query = '1=1';
 
         _query.forEach(function(e) {
-            if (e.key === 'user_id') {
-                where_query = util.format('%s AND S.user_id = ?', where_query);
+            if (e.key === 'userId') {
+                where_query = util.format('%s AND S.userId = ?', where_query);
                 values.push(e.value);
             }
 
@@ -27,37 +27,25 @@ var store = {
         engine.rds.row(sql, values, 'cp', _callback);
     },
 
-    list: function(_query, _callback) {
+    list: function(_table, _query, _callback) {
         var values = [];
         var where_query = '1=1';
 
         _query.forEach(function(e) {
-            if (e.key === 'user_id') {
-                where_query = util.format('%s AND S.user_id = ?', where_query);
+            if (e.key === 'storeId') {
+                where_query = util.format('%s AND T.storeId = ?', where_query);
                 values.push(e.value);
             }
 
-            if (e.key === 'name') {
-                where_query = util.format('%s AND S.name like ?', where_query);
-                values.push(util.format('%%%s%%', e.value));
-            }
-
-            if (e.key === 'level') {
-                // typeof e.value == 'object'
-                // typeof(e.value) == 'object'
-                where_query = util.format(
-                    '%s AND S.level %s ',
-                    where_query,
-                    typeof e.value == 'object' ? 'in (?)' : '= ?'
-                );
-
+            if (e.key === 'stampId') {
+                where_query = util.format('%s AND T.stampId = ?', where_query);
                 values.push(e.value);
             }
         });
 
         var sql = `select *
             from 
-								store S
+								${_table} T
             where 
                 {where_query}`.replace('{where_query}', where_query);
 

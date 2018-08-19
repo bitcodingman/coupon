@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as baseActions from 'store/modules/base';
 import Title from 'components/store/Title';
 import StampCard from 'components/common/StampCard';
 import StampInfo from 'components/common/StampInfo';
@@ -60,11 +62,10 @@ class StampContainer extends Component {
       },
     })
       .then(res => {
-        console.log('스토어정보를 찾았습니다');
+        console.log(res.data.data);
         this.setState({
           storeInfo: res.data.data,
         });
-        console.log(res.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -81,13 +82,19 @@ class StampContainer extends Component {
     ));
     return (
       <div className="container">
-        <Title>{storeInfo.store_name}</Title>
+        <Title>{storeInfo.storeName}</Title>
         {newStampCardList}
       </div>
     );
   }
 }
 
-export default connect(({ session }) => ({
-  userId: session.status.currentUser.userId,
-}))(StampContainer);
+export default connect(
+  ({ base }) => ({
+    logged: base.logged,
+    userId: base.data.userId,
+  }),
+  dispatch => ({
+    BaseActions: bindActionCreators(baseActions, dispatch),
+  })
+)(StampContainer);

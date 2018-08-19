@@ -7,14 +7,58 @@ app.use(bodyParser.json());
 
 /* 스토어 정보 가져오기 */
 router.post('/getinfo', (req, res) => {
-    const query = [{ key: 'user_id', value: req.body.userId }];
+    let query = [{ key: 'userId', value: 5 }];
     model.store.store.get(query, (err, r) => {
-        return res.json({
-            is_err: false,
-            msg: '스토어정보를 가져왔습니다.',
-            data: r,
+        const data = r;
+
+        let query = [{ key: 'storeId', value: r.storeId }];
+        model.store.store.list('stamp', query, (err, r) => {
+            data.stamp = r;
+
+            const sample = r.map(stamp => {
+                let query = [{ key: 'stampId', value: stamp.stampId }];
+                model.store.store.list('coupon_config', query, (err, r) => {
+                    stamp.couponConfig = r;
+                });
+                console.log(r);
+            });
+
+            const arr = [
+                {
+                    a: 1,
+                    b: 2,
+                },
+                {
+                    a: 2,
+                    b: 4,
+                },
+            ];
+
+            arr.map(obj => {
+                obj.c = 6;
+            });
+
+            console.log(arr);
+
+            // return res.json({
+            //     is_err: false,
+            //     msg: '스토어정보를 가져왔습니다.',
+            //     data: data,
+            // });
+            // for (let i = 0; i < r.length; i++) {
+            //     let query = [{ key: 'stampId', value: r[i].stampId }];
+            //     model.store.store.list('coupon_config', query, (err, r) => {
+            //         data.stamp[i].couponConfig = r;
+            //     });
+            // }
         });
     });
 });
 
 module.exports = router;
+
+// return res.json({
+// 	is_err: false,
+// 	msg: '스토어정보를 가져왔습니다.',
+// 	data: r,
+// });

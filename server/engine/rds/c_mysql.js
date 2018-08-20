@@ -1,5 +1,5 @@
 'use strict';
- 
+
 /***
  * 
  Pool을 사요하도록 하는 이유 : 
@@ -73,7 +73,7 @@ class c_mysql extends rds_Interface {
             return true;
         }
 
-        var mysql = require('mysql');  
+        var mysql = require('mysql');
 
         this._d = mysql.createPool({
             connectionLimit: 100, //important
@@ -83,7 +83,7 @@ class c_mysql extends rds_Interface {
             port: this._dsn.port,
             database: this._dsn.database,
         });
- 
+
         if (this._d == undefined) {
             return false;
         }
@@ -103,45 +103,47 @@ class c_mysql extends rds_Interface {
         }
 
         this._d.getConnection(function(err, conn) {
-
-            if (err) { 
+            if (err) {
                 conn.release();
                 return _callback(true, err);
-            } 
+            }
 
-            conn.query(_sql, _values, function (err, rows) {
-                conn.release();    
-                
-                if (err) { return _callback(true, err); } 
+            conn.query(_sql, _values, function(err, rows) {
+                conn.release();
+
+                if (err) {
+                    return _callback(true, err);
+                }
 
                 if (rows.length != 1) {
                     return _callback(true, []);
                 }
 
                 return _callback(err, rows[0]);
-            }); 
-        }); 
+            });
+        });
     }
 
     rows(_sql, _values, _callback) {
         if (this.is_d() == false) {
             return null;
         }
-  
+
         this._d.getConnection(function(err, conn) {
-
-            if (err) { 
+            if (err) {
                 conn.release();
-                return _callback(true, err); 
-            } 
+                return _callback(true, err);
+            }
 
-            conn.query(_sql, _values, function (err, rows) {
+            conn.query(_sql, _values, function(err, rows) {
                 conn.release();
 
-                if (err) { return _callback(true, err); } 
+                if (err) {
+                    return _callback(true, err);
+                }
 
                 return _callback(err, rows);
-            }); 
+            });
         });
     }
 
@@ -151,21 +153,21 @@ class c_mysql extends rds_Interface {
         }
 
         this._d.getConnection(function(err, conn) {
-            if (err) { 
+            if (err) {
                 conn.release(); //해제 하지 않는다면, 쿼리가 끝났다고 하더라도 connection은 계속 살아 있을 것이고,
-                            // 머지 않아 빠르게 connection이 full 나는 상황이 오게 될 겁니다. 
-                return _callback(true, err); 
-            } 
+                // 머지 않아 빠르게 connection이 full 나는 상황이 오게 될 겁니다.
+                return _callback(true, err);
+            }
 
-            conn.query(_sql, _values, function (err, rows) {
+            conn.query(_sql, _values, function(err, rows) {
                 conn.release();
 
-                if (err) { 
-                    return _callback(true, err); 
-                } 
+                if (err) {
+                    return _callback(true, err);
+                }
 
                 return _callback(err, rows);
-            }); 
+            });
         });
     }
 }

@@ -15,30 +15,20 @@ router.post('/getinfo', (req, res) => {
         model.store.store.list('stamp', query, (err, r) => {
             data.stamp = r;
 
-            const sample = r.map(stamp => {
-                let query = [{ key: 'stampId', value: stamp.stampId }];
-                model.store.store.list('coupon_config', query, (err, r) => {
-                    stamp.couponConfig = r;
-                });
-                console.log(r);
+            return res.json({
+                is_err: false,
+                msg: '스토어정보를 가져왔습니다.',
+                data: data,
             });
 
-            const arr = [
-                {
-                    a: 1,
-                    b: 2,
-                },
-                {
-                    a: 2,
-                    b: 4,
-                },
-            ];
-
-            arr.map(obj => {
-                obj.c = 6;
-            });
-
-            console.log(arr);
+            // const sample = r.map(stamp => {
+            //     let query = [{ key: 'stampId', value: stamp.stampId }];
+            //     model.store.store.list('coupon_config', query, (err, r) => {
+            //         stamp.couponConfig = r;
+            //         test = r;
+            //     });
+            //     console.log(test);
+            // });
 
             // return res.json({
             //     is_err: false,

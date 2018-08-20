@@ -10,11 +10,19 @@ class Base extends Component {
 
   initialize = async () => {
     const { BaseActions } = this.props;
-    if (localStorage.logged === 'true') {
-      BaseActions.tempLogin();
+    try {
+      if (localStorage.logged === 'true') {
+        BaseActions.tempLogin();
+      }
+      const auth = await BaseActions.checkLogin();
+      if (auth.data.isErr) {
+        localStorage.logged = 'false';
+        return false;
+      }
+      return BaseActions.setUser(auth.data);
+    } catch (err) {
+      return console.log(err);
     }
-    const auth = await BaseActions.checkLogin();
-    BaseActions.setUser(auth.data);
   };
 
   render() {

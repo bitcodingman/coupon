@@ -26,6 +26,7 @@ const initialState = Record({
   password: '',
   logged: false,
   data: {},
+  storeInfo: {},
 })();
 
 // reducer
@@ -59,6 +60,8 @@ export default handleActions(
       return state.set(name, value);
     },
     [SET_USER]: (state, action) => {
+      console.log('SET_USER');
+      console.log(action.payload);
       const { userId, userType, email, name, barcode } = action.payload.data;
       const newData = {
         userId,
@@ -67,10 +70,12 @@ export default handleActions(
         name,
         barcode,
       };
+      const newStore = action.payload.data.storeInfo;
       return state
-        .set('email', initialState.get('email'))
-        .set('password', initialState.get('password'))
-        .set('data', newData);
+        .set('email', initialState.email)
+        .set('password', initialState.password)
+        .set('data', newData)
+        .set('storeInfo', newStore);
     },
   },
   initialState

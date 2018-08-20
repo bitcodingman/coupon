@@ -19,7 +19,9 @@ class Base extends Component {
         localStorage.logged = 'false';
         return false;
       }
-      return BaseActions.setUser(auth.data);
+      const sessionData = JSON.parse(JSON.stringify(auth.data));
+      console.log(sessionData);
+      return BaseActions.setUser(sessionData);
     } catch (err) {
       return console.log(err);
     }

@@ -70,18 +70,25 @@ router.post('/signin', (req, res) => {
         }
 
         var u_session = model.user.session.get_info();
-        u_session['userId'] = r['userId'];
-        u_session['userType'] = r['userType'];
-        u_session['email'] = r['email'];
-        u_session['name'] = r['name'];
-        u_session['barcode'] = r['barcode'];
+        u_session.userId = r.userId;
+        u_session.userType = r.userType;
+        u_session.email = r.email;
+        u_session.name = r.name;
+        u_session.barcode = r.barcode;
+
+        if (r.userType === 1) {
+            const query = [{ key: 'userId', value: r.userId }];
+            model.store.store.get(query, (err, r) => {
+                u_session.storeInfo = r;
+            });
+        }
 
         model.user.session.set(req, u_session, () => {
             return res.json({
                 logged: true,
                 isErr: false,
                 msg: '로그인 성공',
-                data: r,
+                data: u_session,
             });
         });
     });

@@ -11,5 +11,5 @@ export const logout = () => axios.post('/api/account/logout');
 export const checkLogin = () => axios.get('/api/account/getsession');
 
 // 스토어정보 가져오기
-export const getStoreInfo = userId =>
-  axios.post('/api/store/getinfo', { userId });
+export const getStampInfo = storeId =>
+  axios.post('/api/store/getinfo', { storeId });

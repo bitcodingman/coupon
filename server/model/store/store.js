@@ -27,7 +27,7 @@ var store = {
         engine.rds.row(sql, values, 'cp', _callback);
     },
 
-    list: function(_table, _query, _callback) {
+    list: function(_query, _callback) {
         var values = [];
         var where_query = '1=1';
 
@@ -45,8 +45,12 @@ var store = {
 
         var sql = `select *
             from 
-								${_table} T
-            where 
+								stamp T join coupon_config C
+						ON
+								T.storeId = C.storeId
+						AND 
+								T.stampId = C.stampId
+						AND
                 {where_query}`.replace('{where_query}', where_query);
 
         engine.rds.rows(sql, values, 'cp', _callback);

@@ -1,11 +1,11 @@
 /* eslint-disable */
 import { createAction, handleActions } from 'redux-actions';
-import { Record } from 'immutable';
+import { Map, List } from 'immutable';
 import { pender } from 'redux-pender';
 import * as api from 'lib/api';
 
 // action types
-const GET_STORE_INFO = 'store/GET_STORE_INFO';
+const GET_STAMP_INFO = 'store/GET_STAMP_INFO';
 // const LOGOUT = 'base/LOGOUT';
 // const TEMP_LOGIN = 'base/TEMP_LOGIN';
 // const CHECK_LOGIN = 'base/CHECK_LOGIN';
@@ -13,7 +13,7 @@ const GET_STORE_INFO = 'store/GET_STORE_INFO';
 // const SET_USER = 'base/SET_USER';
 
 // action creators
-export const getStoreInfo = createAction(GET_STORE_INFO, api.getStoreInfo);
+export const getStampInfo = createAction(GET_STAMP_INFO, api.getStampInfo);
 // export const logout = createAction(LOGOUT, api.logout);
 // export const checkLogin = createAction(CHECK_LOGIN, api.checkLogin);
 // export const tempLogin = createAction(TEMP_LOGIN);
@@ -21,17 +21,17 @@ export const getStoreInfo = createAction(GET_STORE_INFO, api.getStoreInfo);
 // export const setUser = createAction(SET_USER);
 
 // initial state
-const initialState = Record({
-  storeInfo: {},
-})();
+const initialState = Map({
+  stampList: List([]),
+});
 
 // reducer
 export default handleActions(
   {
     ...pender({
-      type: GET_STORE_INFO,
+      type: GET_STAMP_INFO,
       onSuccess: (state, action) => {
-        return state.set('storeInfo', action.payload.data.data);
+        return state.set('stampList', List(action.payload.data.data));
       },
     }),
     // ...pender({

@@ -8,6 +8,7 @@ var user_session = {
             email: null,
             name: null,
             barcode: null,
+            storeInfo: null,
         };
     },
 

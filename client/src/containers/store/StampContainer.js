@@ -11,12 +11,19 @@ class StampContainer extends Component {
     this.initialize();
   }
 
+  componentDidUpdate(prevProps) {
+    const { storeInfo } = this.props;
+    if (storeInfo !== prevProps.storeInfo) {
+      this.initialize();
+      console.log('stampinfo');
+    }
+  }
+
   initialize = async () => {
     const { StoreActions, storeInfo } = this.props;
+    if (!storeInfo) return false;
     try {
-      console.log(JSON.stringify(storeInfo));
-      const stampList = await StoreActions.getStampInfo();
-      console.log(stampList);
+      const stampList = await StoreActions.getStampInfo(storeInfo.storeId);
       return stampList;
     } catch (err) {
       return console.log(err);
@@ -24,28 +31,28 @@ class StampContainer extends Component {
   };
 
   render() {
-    const { storeInfo, userId } = this.props;
-    // const newStampCardList = stampCardList.map(stampCard => (
-    // 	<div key={stampCard.stampId}>
-    // 		<StampCard stampCard={stampCard} />
-    // 		<StampInfo stampCard={stampCard} />
-    // 	</div>
+    const { storeInfo, stampList } = this.props;
+    console.log(stampList);
+    // const newStampList = stampList.map(stampCard => (
+    //   <div key={stampCard.stampId}>
+    //     <StampCard stampCard={stampCard} />
+    //     <StampInfo stampCard={stampCard} />
+    //   </div>
     // ));
     return (
       <div className="container">
         <Title>{storeInfo.storeName}</Title>
-        <div>{userId}</div>
+        {JSON.stringify(stampList)}
+        {/* {newStampList} */}
       </div>
     );
   }
 }
 
 export default connect(
-  ({ base }) => ({
-    data: base.data,
-    logged: base.logged,
-    userId: base.data.userId,
+  ({ base, store }) => ({
     storeInfo: base.storeInfo,
+    stampList: store.stampList,
   }),
   dispatch => ({
     StoreActions: bindActionCreators(storeActions, dispatch),

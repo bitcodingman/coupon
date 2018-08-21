@@ -60,8 +60,6 @@ export default handleActions(
       return state.set(name, value);
     },
     [SET_USER]: (state, action) => {
-      console.log('SET_USER');
-      console.log(action.payload);
       const { userId, userType, email, name, barcode } = action.payload.data;
       const newData = {
         userId,

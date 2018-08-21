@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
 
 class Base extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.initialize();
   }
 
@@ -20,7 +20,6 @@ class Base extends Component {
         return false;
       }
       const sessionData = JSON.parse(JSON.stringify(auth.data));
-      console.log(sessionData);
       return BaseActions.setUser(sessionData);
     } catch (err) {
       return console.log(err);

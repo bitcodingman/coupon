@@ -6,6 +6,11 @@ import * as baseActions from 'store/modules/base';
 import Header from 'components/common/Header';
 
 class HeaderContainer extends Component {
+  shouldComponentUpdate(nextProps) {
+    const { base } = this.props;
+    return nextProps.base !== base;
+  }
+
   handleLogout = async () => {
     const { BaseActions, history } = this.props;
     try {
@@ -27,6 +32,7 @@ export default compose(
   withRouter,
   connect(
     ({ base }) => ({
+      base,
       logged: base.logged,
       userType: base.data.userType,
     }),

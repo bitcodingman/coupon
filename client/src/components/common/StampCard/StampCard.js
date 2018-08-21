@@ -1,11 +1,11 @@
 import React from 'react';
 import './StampCard.scss';
 
-const StampCard = ({ stampCard }) => {
+const StampCard = ({ stamp }) => {
   const stampArr = () => {
     const rows = [];
 
-    for (let i = 1; i <= stampCard.stampMaximum; i++) {
+    for (let i = 1; i <= stamp.stampMaximum; i++) {
       rows.push(i);
     }
 

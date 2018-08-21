@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
+import * as storeActions from 'store/modules/store';
 
 class Base extends Component {
-  componentWillMount() {
-    this.initialize();
+  componentDidMount() {
+    this.initialize().then(() => {
+      const { StoreActions, userType, storeInfo } = this.props;
+      if (userType === 1) {
+        StoreActions.getStampInfo(storeInfo.storeId);
+      }
+    });
   }
 
   initialize = async () => {
@@ -20,7 +26,7 @@ class Base extends Component {
         return false;
       }
       const sessionData = JSON.parse(JSON.stringify(auth.data));
-      return BaseActions.setUser(sessionData);
+      return await BaseActions.setUser(sessionData);
     } catch (err) {
       return console.log(err);
     }
@@ -39,8 +45,12 @@ class Base extends Component {
 }
 
 export default connect(
-  null,
+  ({ base }) => ({
+    userType: base.data.userType,
+    storeInfo: base.storeInfo,
+  }),
   dispatch => ({
     BaseActions: bindActionCreators(baseActions, dispatch),
+    StoreActions: bindActionCreators(storeActions, dispatch),
   })
 )(Base);

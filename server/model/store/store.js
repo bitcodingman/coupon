@@ -56,6 +56,46 @@ var store = {
         engine.rds.rows(sql, values, 'cp', _callback);
     },
 
+    getStamp: function(_query, _callback) {
+        var values = [];
+        var where_query = '1=1';
+
+        _query.forEach(function(e) {
+            if (e.key === 'storeId') {
+                where_query = util.format('%s AND T.storeId = ?', where_query);
+                values.push(e.value);
+            }
+        });
+
+        var sql = `select *
+					from 
+							stamp T
+					WHERE
+							{where_query}`.replace('{where_query}', where_query);
+
+        engine.rds.rows(sql, values, 'cp', _callback);
+    },
+
+    getCoupon: function(_query, _callback) {
+        var values = [];
+        var where_query = '1=1';
+
+        _query.forEach(function(e) {
+            if (e.key === 'stampId') {
+                where_query = util.format('%s AND C.stampId = ?', where_query);
+                values.push(e.value);
+            }
+        });
+
+        var sql = `select *
+				from 
+						coupon_config C
+				WHERE
+						{where_query}`.replace('{where_query}', where_query);
+
+        engine.rds.rows(sql, values, 'cp', _callback);
+    },
+
     update: function(_set_query, _where_query, _callback) {
         var values = [];
         //var set_query = _set_query.json(' = ?,');

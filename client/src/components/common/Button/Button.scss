@@ -1,3 +1,5 @@
+@import "utils";
+
 .Button {
   padding: 0.5rem 1rem;
   border: none;
@@ -36,6 +38,20 @@
     &:hover {
       background: #495057;
       color: white;
+    }
+	}
+	&.highlight {
+		display: block;
+		border-radius: 4px;
+		padding: 1.5rem 0;
+		width: 80%;
+		margin: 3rem auto 0;
+		background: #30295c;
+		color: $dark-txt-base;
+		
+    &:hover {
+      background: #362e68;
+      color: $dark-txt-hover;
     }
   }
 }

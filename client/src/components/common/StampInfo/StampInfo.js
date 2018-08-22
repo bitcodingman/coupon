@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './StampInfo.scss';
+import { FiSettings } from 'react-icons/fi';
 
 const StampInfo = ({ stamp }) => {
   const configArr = stamp.couponConfig.map(coupon => (
@@ -8,10 +10,15 @@ const StampInfo = ({ stamp }) => {
     </li>
   ));
   return (
-    <ul className="StampInfo">
-      <li>적립기준 - {stamp.stampTerm}</li>
-      {configArr}
-    </ul>
+    <div className="StampInfo">
+      <ul className="StampInfoList">
+        <li>적립기준 - {stamp.stampTerm}</li>
+        {configArr}
+      </ul>
+      <Link to={`/makestamp/${stamp.stampId}`} className="StampModify">
+        <FiSettings />
+      </Link>
+    </div>
   );
 };
 

@@ -5,6 +5,7 @@ class MakeStampContainer extends Component {
   render() {
     return (
       <div>
+        <h2>스탬프카드 만들기 페이지 입니다.</h2>
         <input
           type="text"
           name="stampTerm"

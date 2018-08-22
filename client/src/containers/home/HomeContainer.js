@@ -4,19 +4,19 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 class HomeContainer extends Component {
-  render() {
+  componentWillMount() {
     const { logged, userType, history } = this.props;
+    if (logged && userType === 0) {
+      history.push('/customer');
+    } else if (logged && userType === 1) {
+      history.push('/store/stamp');
+    }
+  }
+
+  render() {
     return (
       <div>
-        {logged ? (
-          <div>
-            {userType === 0
-              ? history.push('/customer')
-              : history.push('/store/stamp')}
-          </div>
-        ) : (
-          <h2>로그인하세요.</h2>
-        )}
+        <h2>로그인하세요.</h2>
       </div>
     );
   }

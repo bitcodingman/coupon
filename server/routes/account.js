@@ -21,7 +21,7 @@ router.get('/getsession', (req, res) => {
         logged: false,
         isErr: true,
         msg: '세션데이터가 없습니다.',
-        data: {},
+        data: null,
     });
 });
 
@@ -32,7 +32,7 @@ router.post('/signin', (req, res) => {
             logged: false,
             isErr: true,
             msg: '아이디(이메일)를 입력하세요.',
-            data: {},
+            data: null,
         });
     }
 
@@ -41,7 +41,7 @@ router.post('/signin', (req, res) => {
             logged: false,
             isErr: true,
             msg: '패스워드를 입력하세요.',
-            data: {},
+            data: null,
         });
     }
 
@@ -56,7 +56,7 @@ router.post('/signin', (req, res) => {
                 logged: false,
                 isErr: true,
                 msg: '계정정보를 찾을 수 없습니다.',
-                data: {},
+                data: null,
             });
         }
 
@@ -65,7 +65,7 @@ router.post('/signin', (req, res) => {
                 logged: false,
                 isErr: true,
                 msg: '비밀번호를 확인하세요.',
-                data: {},
+                data: null,
             });
         }
 
@@ -76,26 +76,38 @@ router.post('/signin', (req, res) => {
         u_session.name = r.name;
         u_session.barcode = r.barcode;
 
+        // 사용자 회원일 경우
+        if (r.userType === 0) {
+            model.user.session.set(req, u_session, () => {
+                return res.json({
+                    logged: true,
+                    isErr: false,
+                    msg: '로그인 성공',
+                    data: u_session,
+                });
+            });
+        }
+
+        // 매장 회원일 경우
         if (r.userType === 1) {
             const query = [{ key: 'userId', value: r.userId }];
             model.store.store.get(query, (err, r) => {
                 u_session.storeInfo = r;
             });
-        }
 
-        model.user.session.set(req, u_session, () => {
-            return res.json({
-                logged: true,
-                isErr: false,
-                msg: '로그인 성공',
-                data: u_session,
+            model.user.session.set(req, u_session, () => {
+                return res.json({
+                    logged: true,
+                    isErr: false,
+                    msg: '로그인 성공',
+                    data: u_session,
+                });
             });
-        });
+        }
     });
 });
 
 router.post('/signup', (req, res) => {
-    /* to be implemented */
     res.json({ success: true });
 });
 
@@ -105,10 +117,9 @@ router.post('/logout', (req, res) => {
             logged: false,
             isErr: false,
             msg: '로그아웃 성공',
-            data: {},
+            data: null,
         });
     });
-    // return res.json({ sucess: true });
 });
 
 module.exports = router;

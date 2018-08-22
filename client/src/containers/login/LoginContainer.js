@@ -5,10 +5,20 @@ import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
 import * as storeActions from 'store/modules/store';
 import LoginBox from 'components/login/LoginBox';
+import validator from 'validator';
 
 class LoginContainer extends Component {
   handleLogin = async () => {
     const { BaseActions, StoreActions, email, password, history } = this.props;
+
+    if (validator.isEmpty(email, { ignore_whitespace: true })) {
+      return alert('아이디를 입력하세요.');
+    }
+
+    if (validator.isEmpty(password, { ignore_whitespace: true })) {
+      return alert('패스워드를 입력하세요.');
+    }
+
     try {
       const auth = await BaseActions.login(email, password);
 
@@ -20,13 +30,12 @@ class LoginContainer extends Component {
       localStorage.logged = 'true';
 
       if (auth.data.data.userType === 0) {
-        return history.push('/customer');
+        history.push('/customer');
+      } else if (auth.data.data.userType === 1) {
+        await StoreActions.getStampInfo(auth.data.data.storeInfo.storeId);
+        history.push(`/store/stamp`);
       }
 
-      if (auth.data.data.userType === 1) {
-        await StoreActions.getStampInfo(auth.data.data.storeInfo.storeId);
-        return history.push(`/store/stamp`);
-      }
       return true;
     } catch (err) {
       return console.log(err);

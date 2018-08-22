@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Title from 'components/store/Title';
 import StampList from 'components/store/StampList';
+import './StampContainer.scss';
 
 class StampContainer extends Component {
   shouldComponentUpdate(nextProps) {
@@ -13,7 +14,7 @@ class StampContainer extends Component {
     const { storeInfo, stampList } = this.props;
 
     return (
-      <div className="container">
+      <div className="StampContainer">
         <Title>{storeInfo.storeName}</Title>
         <StampList stampList={stampList} />
       </div>

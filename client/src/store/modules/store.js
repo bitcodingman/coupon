@@ -12,7 +12,7 @@ export const getStampInfo = createAction(GET_STAMP_INFO, api.getStampInfo);
 
 // initial state
 const initialState = Record({
-  stampList: {},
+  stampList: List([]),
 })();
 
 // reducer

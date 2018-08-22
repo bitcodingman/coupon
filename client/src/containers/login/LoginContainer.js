@@ -3,11 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
+import * as storeActions from 'store/modules/store';
 import LoginBox from 'components/login/LoginBox';
 
 class LoginContainer extends Component {
   handleLogin = async () => {
-    const { BaseActions, email, password, history } = this.props;
+    const { BaseActions, StoreActions, email, password, history } = this.props;
     try {
       const auth = await BaseActions.login(email, password);
 
@@ -15,7 +16,7 @@ class LoginContainer extends Component {
         return alert(auth.data.msg);
       }
 
-      BaseActions.setUser(auth.data);
+      await BaseActions.setUser(auth.data);
       localStorage.logged = 'true';
 
       if (auth.data.data.userType === 0) {
@@ -23,6 +24,7 @@ class LoginContainer extends Component {
       }
 
       if (auth.data.data.userType === 1) {
+        await StoreActions.getStampInfo(auth.data.data.storeInfo.storeId);
         return history.push(`/store/stamp`);
       }
       return true;
@@ -69,6 +71,7 @@ export default compose(
     }),
     dispatch => ({
       BaseActions: bindActionCreators(baseActions, dispatch),
+      StoreActions: bindActionCreators(storeActions, dispatch),
     })
   )
 )(LoginContainer);

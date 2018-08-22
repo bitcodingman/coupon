@@ -2,19 +2,21 @@
 
 .Tab {
 	display: flex;
-	border-bottom: $border;
 	
 	.TabItem {
 		flex: 1;
 		text-align: center;
 		align-items: center;
 		padding: 1rem 0;
-
-		&:first-child {
-			border-right: $border;
-		}
+		background: $base-color;
+		color: $dark-txt-base;
 		&:hover {
-			background-color: #cec6ff;
+			color: $dark-txt-hover;
+			background: #4a3f8d;
+		}
+		&.active {
+			color: $dark-txt-hover;
+			background: #453b84;
 		}
 		p {
 			font-size: 1.2rem;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
 import * as storeActions from 'store/modules/store';
 
@@ -15,7 +16,7 @@ class Base extends Component {
   }
 
   initialize = async () => {
-    const { BaseActions } = this.props;
+    const { BaseActions, history } = this.props;
     try {
       if (localStorage.logged === 'true') {
         BaseActions.tempLogin();
@@ -23,6 +24,7 @@ class Base extends Component {
       const auth = await BaseActions.checkLogin();
       if (auth.data.isErr) {
         localStorage.logged = 'false';
+        history.push('/');
         return false;
       }
       const sessionData = JSON.parse(JSON.stringify(auth.data));
@@ -33,24 +35,20 @@ class Base extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <h2>
-          전역적으로 사용하는 컴포넌트는 이곳에 렌더링 합니다.
-          containers/common/Base.js
-        </h2>
-      </div>
-    );
+    return <div />;
   }
 }
 
-export default connect(
-  ({ base }) => ({
-    userType: base.data.userType,
-    storeInfo: base.storeInfo,
-  }),
-  dispatch => ({
-    BaseActions: bindActionCreators(baseActions, dispatch),
-    StoreActions: bindActionCreators(storeActions, dispatch),
-  })
+export default compose(
+  withRouter,
+  connect(
+    ({ base }) => ({
+      userType: base.data.userType,
+      storeInfo: base.storeInfo,
+    }),
+    dispatch => ({
+      BaseActions: bindActionCreators(baseActions, dispatch),
+      StoreActions: bindActionCreators(storeActions, dispatch),
+    })
+  )
 )(Base);

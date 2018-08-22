@@ -15,7 +15,7 @@ const StampCard = ({ stamp }) => {
   const stampList = stampArr();
 
   const newStampList = stampList.map(stamp => (
-    <div key={stamp} className="Stamp">
+    <div key={stamp} className={`Stamp ${stampList.length >= 16 && 'small'}`}>
       <span>{stamp}</span>
     </div>
   ));

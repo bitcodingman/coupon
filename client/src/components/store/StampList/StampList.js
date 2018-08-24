@@ -10,10 +10,10 @@ const StampList = ({ stampList }) => {
     return <NoStamp />;
   }
 
-  const newStampList = stampList.map(stamp => (
-    <div key={stamp.stampId} className="StampWrap">
-      <StampCard stamp={stamp} />
-      <StampInfo stamp={stamp} />
+  const newStampList = stampList.map(stampInfo => (
+    <div key={stampInfo.stampId} className="StampWrap">
+      <StampCard stampInfo={stampInfo} />
+      <StampInfo stampInfo={stampInfo} />
     </div>
   ));
   return (

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import './StampInfo.scss';
 import { FiSettings } from 'react-icons/fi';
 
-const StampInfo = ({ stamp }) => {
-  const configArr = stamp.couponConfig.map(coupon => (
+const StampInfo = ({ stampInfo }) => {
+  const configArr = stampInfo.couponConfig.map(coupon => (
     <li key={coupon.couponId}>
       스탬프 적립 {coupon.couponPublishTerm}개 - {coupon.couponItemName}
     </li>
@@ -12,10 +12,10 @@ const StampInfo = ({ stamp }) => {
   return (
     <div className="StampInfo">
       <ul className="StampInfoList">
-        <li>적립기준 - {stamp.stampTerm}</li>
+        <li>적립기준 - {stampInfo.stampTerm}</li>
         {configArr}
       </ul>
-      <Link to={`/makestamp/${stamp.stampId}`} className="StampModify">
+      <Link to={`/makestamp/${stampInfo.stampId}`} className="StampModify">
         <FiSettings />
       </Link>
     </div>

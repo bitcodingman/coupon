@@ -12,7 +12,10 @@ const StampList = ({ stampList }) => {
 
   const newStampList = stampList.map(stampInfo => (
     <div key={stampInfo.stampId} className="StampWrap">
-      <StampCard stampInfo={stampInfo} />
+      <StampCard
+        stampMaximum={stampInfo.stampMaximum}
+        couponConfig={stampInfo.couponConfig}
+      />
       <StampInfo stampInfo={stampInfo} />
     </div>
   ));

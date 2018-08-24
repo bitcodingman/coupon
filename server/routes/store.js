@@ -28,7 +28,8 @@ router.post('/getinfo', (req, res) => {
                 couponId: stamp.couponId,
                 couponPublishTerm: stamp.couponPublishTerm,
                 couponItemName: stamp.couponItemName,
-                itemImgId: stamp.itemImgId,
+                imgCategory: stamp.imgCategory,
+                itemImg: stamp.itemImg,
             });
             return stampList;
         };

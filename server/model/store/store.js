@@ -43,13 +43,15 @@ var store = {
             }
         });
 
-        var sql = `select T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, itemImgId
+        var sql = `select T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, imgCategory, itemImg
             from 
-								stamp T join coupon_config C
+							stamp T join coupon_config C join item_img I
 						ON
 								T.storeId = C.storeId
 						AND 
 								T.stampId = C.stampId
+						AND 
+								C.itemImgId = I.itemImgId
 						AND
                 {where_query}`.replace('{where_query}', where_query);
 

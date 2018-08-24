@@ -15,7 +15,7 @@ class StampContainer extends Component {
 
   handleLocation = () => {
     const { history } = this.props;
-    history.push('/makestamp');
+    history.push('/store/makestamp');
   };
 
   render() {

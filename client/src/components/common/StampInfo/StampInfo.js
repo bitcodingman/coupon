@@ -15,7 +15,10 @@ const StampInfo = ({ stampInfo }) => {
         <li>적립기준 - {stampInfo.stampTerm}</li>
         {configArr}
       </ul>
-      <Link to={`/makestamp/${stampInfo.stampId}`} className="StampModify">
+      <Link
+        to={`/store/makestamp/${stampInfo.stampId}`}
+        className="StampModify"
+      >
         <FiSettings />
       </Link>
     </div>

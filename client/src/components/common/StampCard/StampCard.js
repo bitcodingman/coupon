@@ -1,38 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './StampCard.scss';
 
-const StampCard = ({ stampInfo }) => {
-  const stampArr = () => {
-    const rows = [];
+class StampCard extends Component {
+  handleTooltip = e => {
+    const tooltip = e.currentTarget.querySelector('.tooltip');
 
-    for (let i = 1; i <= stampInfo.stampMaximum; i++) {
-      rows.push(i);
+    if (tooltip.classList.contains('active')) {
+      tooltip.classList.remove('active');
+    } else {
+      const all = document.querySelectorAll('.tooltip');
+      for (let i = 0; i < all.length; i++) {
+        all[i].classList.remove('active');
+      }
+      tooltip.classList.add('active');
     }
-
-    return rows;
   };
 
-  const stampList = stampArr();
+  render() {
+    const { stampMaximum, couponConfig } = this.props;
 
-  const newStampList = stampList.map(stamp => {
-    const coupon = stampInfo.couponConfig.find(
-      coupon => coupon.couponPublishTerm === stamp
-    );
+    const stampArr = () => {
+      const rows = [];
 
-    let el = stamp;
+      for (let i = 1; i <= stampMaximum; i++) {
+        rows.push(i);
+      }
 
-    if (coupon) {
-      el = coupon.couponItemName;
-    }
+      return rows;
+    };
 
-    return (
-      <div key={stamp} className={`Stamp ${stampList.length >= 16 && 'small'}`}>
-        <span>{el}</span>
-      </div>
-    );
-  });
+    const stampList = stampArr();
 
-  return <div className="StampCard">{newStampList}</div>;
-};
+    const newStampList = stampList.map(stamp => {
+      const coupon = couponConfig.find(
+        coupon => coupon.couponPublishTerm === stamp
+      );
+
+      let el = <span>{stamp}</span>;
+
+      if (coupon) {
+        el = (
+          <span className="tooltipBox" onClick={this.handleTooltip}>
+            <i className={`icon-${coupon.itemImg}`} />
+            <div className="transition tooltip">{coupon.couponItemName}</div>
+          </span>
+        );
+      }
+
+      return (
+        <div
+          key={stamp}
+          className={`Stamp ${stampList.length >= 16 && 'small'}`}
+        >
+          {el}
+        </div>
+      );
+    });
+
+    return <div className="StampCard">{newStampList}</div>;
+  }
+}
 
 export default StampCard;

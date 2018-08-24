@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Tab from 'components/common/Tab';
-import { StampContainer, GuestContainer } from 'containers';
+import { StampContainer, GuestContainer, MakeStampContainer } from 'containers';
 
 class Store extends Component {
   render() {
@@ -13,6 +13,7 @@ class Store extends Component {
         <Switch>
           <Route path="/store/stamp" component={StampContainer} />
           <Route path="/store/guest" component={GuestContainer} />
+          <Route path="/store/makestamp" component={MakeStampContainer} />
         </Switch>
       </div>
     );

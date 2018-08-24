@@ -5,17 +5,17 @@ import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
 import * as storeActions from 'store/modules/store';
 import LoginBox from 'components/login/LoginBox';
-import validator from 'validator';
+import { isEmpty } from 'validator';
 
 class LoginContainer extends Component {
   handleLogin = async () => {
     const { BaseActions, StoreActions, email, password, history } = this.props;
 
-    if (validator.isEmpty(email, { ignore_whitespace: true })) {
+    if (isEmpty(email, { ignore_whitespace: true })) {
       return alert('아이디를 입력하세요.');
     }
 
-    if (validator.isEmpty(password, { ignore_whitespace: true })) {
+    if (isEmpty(password, { ignore_whitespace: true })) {
       return alert('패스워드를 입력하세요.');
     }
 

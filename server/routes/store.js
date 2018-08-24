@@ -11,7 +11,7 @@ router.post('/getinfo', (req, res) => {
     model.store.store.list(query, (err, r) => {
         let stampList = [];
         const setData = stamp => {
-            let stampObj = stampList.find(function(listItem) {
+            let stampObj = stampList.find(listItem => {
                 return listItem.stampId === stamp.stampId;
             });
 
@@ -36,8 +36,6 @@ router.post('/getinfo', (req, res) => {
         for (let i = 0; i < r.length; i++) {
             setData(r[i]);
         }
-
-        console.log(stampList);
 
         if (!stampList || stampList.length === 0) {
             return res.json({

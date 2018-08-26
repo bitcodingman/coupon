@@ -5,4 +5,6 @@ export { default as GuestContainer } from './store/GuestContainer';
 export { default as MakeStampContainer } from './store/MakeStampContainer';
 export { default as CustomerContainer } from './customer/CustomerContainer';
 export { default as Base } from './common/Base';
+export { default as HideTab } from './common/HideTab';
 export { default as HeaderContainer } from './common/HeaderContainer';
+export { default as TabContainer } from './common/TabContainer';

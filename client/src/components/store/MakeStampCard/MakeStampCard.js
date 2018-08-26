@@ -3,7 +3,7 @@ import './MakeStampCard.scss';
 
 class MakeStampCard extends Component {
   render() {
-    const { stampMaximum } = this.props;
+    const { stampMaximum, onCheck } = this.props;
 
     const stampArr = () => {
       const rows = [];
@@ -18,11 +18,13 @@ class MakeStampCard extends Component {
     const stampList = stampArr();
 
     const newStampList = stampList.map(stamp => (
-      <div key={stamp} className={`Stamp ${stampList.length >= 16 && 'small'}`}>
-        <label htmlFor={stamp}>
-          {stamp}
-          <input type="checkbox" name={stamp} id={stamp} />
-        </label>
+      <div
+        key={stamp}
+        onClick={onCheck}
+        className={`Stamp ${stampList.length >= 16 &&
+          'small'} ${stampList.length === stamp && 'active'}`}
+      >
+        <span>{stamp}</span>
       </div>
     ));
 

@@ -57,6 +57,19 @@ var store = {
 
         engine.rds.rows(sql, values, 'cp', _callback);
     },
+
+    itemImgList: function(_query, _callback) {
+        var values = [];
+        var where_query = '1=1';
+
+        var sql = `SELECT itemImgId, imgCategory, itemImg
+					from 
+						item_img I
+					where
+							{where_query}`.replace('{where_query}', where_query);
+
+        engine.rds.rows(sql, values, 'cp', _callback);
+    },
 };
 
 module.exports = store;

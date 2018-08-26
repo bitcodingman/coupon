@@ -12,6 +12,10 @@ const CHECK_LOGIN = 'base/CHECK_LOGIN';
 const CHANGE_INPUT = 'base/CHANGE_INPUT';
 const SET_USER = 'base/SET_USER';
 
+// tab visiblity 액션
+const HIDE_TAB = 'base/HIDE_TAB';
+const SHOW_TAB = 'base/SHOW_TAB';
+
 // action creators
 export const login = createAction(LOGIN, api.login);
 export const logout = createAction(LOGOUT, api.logout);
@@ -20,11 +24,15 @@ export const tempLogin = createAction(TEMP_LOGIN);
 export const changeInput = createAction(CHANGE_INPUT);
 export const setUser = createAction(SET_USER);
 
+export const hideTab = createAction(HIDE_TAB);
+export const showTab = createAction(SHOW_TAB);
+
 // initial state
 const initialState = Record({
   email: '',
   password: '',
   logged: false,
+  tab: true,
   data: {},
   storeInfo: {},
 })();
@@ -74,6 +82,12 @@ export default handleActions(
         .set('password', initialState.password)
         .set('data', newData)
         .set('storeInfo', newStore);
+    },
+    [HIDE_TAB]: state => {
+      return state.set('tab', false);
+    },
+    [SHOW_TAB]: state => {
+      return state.set('tab', true);
     },
   },
   initialState

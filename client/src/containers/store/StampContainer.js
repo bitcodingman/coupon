@@ -25,7 +25,7 @@ class StampContainer extends Component {
       <div className="StampContainer">
         <Title>{storeInfo.storeName}</Title>
         <StampList stampList={stampList} />
-        <Button theme="highlight" onClick={this.handleLocation}>
+        <Button theme="highlight w80" onClick={this.handleLocation}>
           스탬프카드 만들기
         </Button>
       </div>

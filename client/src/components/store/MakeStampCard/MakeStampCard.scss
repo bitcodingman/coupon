@@ -21,6 +21,23 @@
 		border-radius: 50%;
 		cursor: pointer;
 
+		&:hover {
+			background: $stamp-color-hover;
+			span {
+				color: $txt-base;
+			}
+		}
+
+		&.active {
+			background: $stamp-color-active;
+			span {
+				color: #fff;
+				i{
+					color: #fff;
+				}
+			}
+		}
+
 		&.small {
 			width: calc(16.666666% - 6px);
 			padding-top: calc(16.666666% - 6px);

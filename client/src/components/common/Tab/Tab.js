@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './Tab.scss';
 
 const TabItem = ({ children, tab, count }) => (
-  <NavLink to={`/store/${tab}`} className="TabItem">
+  <NavLink to={`/store/${tab}`} className="TabItem" activeClassName="active">
     <p>{children}</p>
     <h3>
       {!count ? '0' : count.length}

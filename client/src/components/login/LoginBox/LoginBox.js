@@ -18,7 +18,7 @@ const LoginBox = ({ onLogin, onChange, onKeyPress }) => (
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
-      <Button theme="login" onClick={onLogin}>
+      <Button theme="highlight w100" onClick={onLogin}>
         login
       </Button>
     </div>

@@ -13,3 +13,6 @@ export const checkLogin = () => axios.get('/api/account/getsession');
 // 스토어정보 가져오기
 export const getStampInfo = storeId =>
   axios.post('/api/store/getinfo', { storeId });
+
+// 아이템 이미지 요청
+export const getItemImg = () => axios.get('/api/store/getitemimg');

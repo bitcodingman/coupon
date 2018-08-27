@@ -34,7 +34,6 @@ export default compose(
     ({ base }) => ({
       base,
       logged: base.logged,
-      userType: base.data.userType,
     }),
     dispatch => ({
       BaseActions: bindActionCreators(baseActions, dispatch),

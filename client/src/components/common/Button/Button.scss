@@ -9,7 +9,7 @@
 	cursor: pointer;
 	font-weight: normal;
   &.default {
-    display: block;
+    display: inline-block;
 		border-radius: 4px;
 		padding: 0.6rem 1.4rem;
 		margin: 1.5rem auto 0;
@@ -17,6 +17,9 @@
 		color: $dark-txt-base;
 		font-size: 1.4rem;
 		
+		&+& {
+			margin-left: 1rem;
+		}
     &:hover {
       background: #362e68;
       color: $dark-txt-hover;

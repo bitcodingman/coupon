@@ -3,14 +3,17 @@ import Button from 'components/common/Button';
 import './MakeStampBox.scss';
 import MakeStampCard from 'components/store/MakeStampCard';
 import ItemImgList from 'components/store/ItemImgList';
+import MakeStampCoupon from 'components/store/MakeStampCoupon';
 
 const MakeStampBox = ({
   itemImgList,
   itemImgView,
   makeStamp,
+  imgSelect,
   onChange,
-  onCheck,
+  onSelect,
   onClose,
+  setCoupon,
 }) => {
   const optionArr = () => {
     const options = [];
@@ -26,10 +29,34 @@ const MakeStampBox = ({
 
   const stampMaximumSelect = optionArr();
 
+  let couponList = [];
+  if (!makeStamp.couponConfig.isEmpty()) {
+    const sortArr = makeStamp.couponConfig.sort((a, b) => {
+      if (a.couponPublishTerm > b.couponPublishTerm) {
+        return 1;
+      }
+      if (a.couponPublishTerm < b.couponPublishTerm) {
+        return -1;
+      }
+      return 0;
+    });
+
+    couponList = sortArr.map(coupon => (
+      <MakeStampCoupon key={coupon} coupon={coupon} />
+    ));
+  }
+
   return (
     <div className="MakeStampBox">
       {itemImgView ? (
-        <ItemImgList itemImgList={itemImgList} onClose={onClose} />
+        <ItemImgList
+          makeStamp={makeStamp}
+          itemImgList={itemImgList}
+          imgSelect={imgSelect}
+          onClose={onClose}
+          onChange={onChange}
+          setCoupon={setCoupon}
+        />
       ) : null}
 
       {/* 스탬프 적립 기준 입력 */}
@@ -46,24 +73,10 @@ const MakeStampBox = ({
         {stampMaximumSelect}
       </select>
 
-      <MakeStampCard onCheck={onCheck} stampMaximum={makeStamp.stampMaximum} />
+      <MakeStampCard onSelect={onSelect} makeStamp={makeStamp} />
 
-      <div>
-        <h3>5개 적립시 발행할 쿠폰 설정</h3>
-        <input
-          type="text"
-          name="couponItemName"
-          placeholder="쿠폰 상품명을 입력하세요."
-        />
-      </div>
-      <div>
-        <h3>최대(10개) 적립시 발행할 쿠폰 설정</h3>
-        <input
-          type="text"
-          name="couponItemName"
-          placeholder="쿠폰 상품명을 입력하세요."
-        />
-      </div>
+      {couponList}
+
       <Button theme="highlight w100">스탬프카드 만들기</Button>
     </div>
   );

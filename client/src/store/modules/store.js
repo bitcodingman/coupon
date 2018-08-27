@@ -10,6 +10,12 @@ const GET_ITEM_IMG = 'store/GET_ITEM_IMG';
 const SHOW_ITEM_IMG = 'store/SHOW_ITEM_IMG';
 const HIDE_ITEM_IMG = 'store/HIDE_ITEM_IMG';
 const CHANGE_INPUT = 'store/CHANGE_INPUT';
+const TAB_SELECT = 'store/TAB_SELECT';
+const IMG_SELECT = 'store/IMG_SELECT';
+const COUPON_SELECT = 'store/COUPON_SELECT';
+const COUPON_ITEM_NAME = 'store/COUPON_ITEM_NAME';
+const CURRENT_COUPON_INIT = 'store/CURRENT_COUPON_INIT';
+const SET_COUPON_ITEM = 'store/SET_COUPON_ITEM';
 
 // action creators
 export const getStampInfo = createAction(GET_STAMP_INFO, api.getStampInfo);
@@ -17,14 +23,27 @@ export const getItemImg = createAction(GET_ITEM_IMG, api.getItemImg);
 export const showItemImg = createAction(SHOW_ITEM_IMG);
 export const hideItemImg = createAction(HIDE_ITEM_IMG);
 export const changeInput = createAction(CHANGE_INPUT);
+export const tabSelect = createAction(TAB_SELECT);
+export const couponSelect = createAction(COUPON_SELECT);
+export const couponItemName = createAction(COUPON_ITEM_NAME);
+export const imgSelect = createAction(IMG_SELECT);
+export const currentCouponInit = createAction(CURRENT_COUPON_INIT);
+export const setCouponItem = createAction(SET_COUPON_ITEM);
 
 // initial state
 const initialState = Record({
+  tabSelected: 'Stamp',
   stampList: List([]),
   itemImgList: List([]),
   makeStampForm: Record({
     stampTerm: '',
     stampMaximum: 10,
+    currentCoupon: Record({
+      couponPublishTerm: null,
+      couponItemName: '',
+      itemImgId: null,
+      itemImg: '',
+    })(),
     couponConfig: List([]),
     itemImgView: false,
   })(),
@@ -45,13 +64,58 @@ export default handleActions(
         return state.set('itemImgList', action.payload.data.data);
       },
     }),
-    [SHOW_ITEM_IMG]: state =>
-      state.setIn(['makeStampForm', 'itemImgView'], true),
-    [HIDE_ITEM_IMG]: state =>
-      state.setIn(['makeStampForm', 'itemImgView'], false),
+    [SHOW_ITEM_IMG]: state => {
+      return state.setIn(['makeStampForm', 'itemImgView'], true);
+    },
+    [HIDE_ITEM_IMG]: state => {
+      return state.setIn(['makeStampForm', 'itemImgView'], false);
+    },
     [CHANGE_INPUT]: (state, action) => {
       const { name, value } = action.payload;
       return state.setIn(['makeStampForm', name], value);
+    },
+    [TAB_SELECT]: (state, action) => {
+      return state.set('tabSelected', action.payload);
+    },
+    [IMG_SELECT]: (state, action) => {
+      return state
+        .setIn(
+          ['makeStampForm', 'currentCoupon', 'itemImgId'],
+          action.payload.itemImgId
+        )
+        .setIn(
+          ['makeStampForm', 'currentCoupon', 'itemImg'],
+          action.payload.itemImg
+        );
+    },
+    [CURRENT_COUPON_INIT]: state => {
+      return state.setIn(
+        ['makeStampForm', 'currentCoupon'],
+        initialState.getIn(['makeStampForm', 'currentCoupon'])
+      );
+    },
+    [COUPON_SELECT]: (state, action) => {
+      return state.setIn(
+        ['makeStampForm', 'currentCoupon', 'couponPublishTerm'],
+        action.payload
+      );
+    },
+    [COUPON_ITEM_NAME]: (state, action) => {
+      return state.setIn(
+        ['makeStampForm', 'currentCoupon', 'couponItemName'],
+        action.payload
+      );
+    },
+    [SET_COUPON_ITEM]: (state, action) => {
+      const couponConfig = Record({
+        couponPublishTerm: action.payload.couponPublishTerm,
+        couponItemName: action.payload.couponItemName,
+        itemImgId: action.payload.itemImgId,
+        itemImg: action.payload.itemImg,
+      })();
+      return state.updateIn(['makeStampForm', 'couponConfig'], coupon =>
+        coupon.push(couponConfig)
+      );
     },
   },
   initialState

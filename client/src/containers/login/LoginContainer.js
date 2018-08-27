@@ -29,12 +29,10 @@ class LoginContainer extends Component {
       await BaseActions.setUser(auth.data);
       localStorage.logged = 'true';
 
-      if (auth.data.data.userType === 0) {
-        history.push('/customer');
-      } else if (auth.data.data.userType === 1) {
+      if (auth.data.data.userType === 1) {
         await StoreActions.getStampInfo(auth.data.data.storeInfo.storeId);
-        history.push(`/store/stamp`);
       }
+      history.push(`/`);
 
       return true;
     } catch (err) {

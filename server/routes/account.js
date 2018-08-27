@@ -86,21 +86,21 @@ router.post('/signin', (req, res) => {
                     data: u_session,
                 });
             });
-        }
+        } else if (r.userType === 1) {
+            const query = [{ key: 'userId', value: r.userId }];
+            model.store.store.get(query, (err, r) => {
+                u_session.storeInfo = r;
 
-        const query = [{ key: 'userId', value: r.userId }];
-        model.store.store.get(query, (err, r) => {
-            u_session.storeInfo = r;
-
-            model.user.session.set(req, u_session, () => {
-                return res.json({
-                    logged: true,
-                    isErr: false,
-                    msg: '로그인 성공',
-                    data: u_session,
+                model.user.session.set(req, u_session, () => {
+                    return res.json({
+                        logged: true,
+                        isErr: false,
+                        msg: '로그인 성공',
+                        data: u_session,
+                    });
                 });
             });
-        });
+        }
     });
 });
 

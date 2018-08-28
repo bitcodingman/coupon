@@ -16,3 +16,7 @@ export const getStampInfo = storeId =>
 
 // 아이템 이미지 요청
 export const getItemImg = () => axios.get('/api/store/getitemimg');
+
+// 스탬프 저장하기
+export const setStamp = stampInfo =>
+  axios.post('/api/store/setstamp', { stampInfo });

@@ -14,7 +14,9 @@ const MakeStampBox = ({
   onSelect,
   onClose,
   onKeyPress,
+  onSubmit,
   setCoupon,
+  delCoupon,
 }) => {
   const optionArr = () => {
     const options = [];
@@ -33,7 +35,12 @@ const MakeStampBox = ({
   let couponList = [];
   if (!makeStamp.couponConfig.isEmpty()) {
     couponList = makeStamp.couponConfig.map(coupon => (
-      <MakeStampCoupon key={coupon} coupon={coupon} />
+      <MakeStampCoupon
+        key={coupon}
+        coupon={coupon}
+        delCoupon={delCoupon}
+        makeStamp={makeStamp}
+      />
     ));
   }
 
@@ -69,7 +76,9 @@ const MakeStampBox = ({
 
       {couponList}
 
-      <Button theme="highlight w100">스탬프카드 만들기</Button>
+      <Button theme="highlight w100" onClick={onSubmit}>
+        스탬프카드 만들기
+      </Button>
     </div>
   );
 };

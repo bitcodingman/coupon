@@ -64,7 +64,6 @@
 		background: transparent;
 		color: $icon-base;
 		position: absolute;
-		top: 0; right: 0;
 		font-size: 1.6rem;
 		padding: 0;
 		text-align: center;
@@ -80,6 +79,8 @@
 	}
 	&.trash {
 		width: 4rem; height: 4rem;
+		top: 50%; right: 0;
+		margin-top: -2rem;
 	}
 	&.w80 { width: 80%; }
 	&.w100 { width: 100%; }

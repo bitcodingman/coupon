@@ -95,4 +95,14 @@ router.post('/getinfo', (req, res) => {
     });
 });
 
+/* 스탬프 저장하기 */
+router.post('/setstamp', (req, res) => {
+    console.log(req.body.stampInfo.couponConfig);
+    return res.json({
+        isErr: false,
+        msg: '스탬프 정보를 저장했습니다.',
+        data: req.body,
+    });
+});
+
 module.exports = router;

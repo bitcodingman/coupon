@@ -1,6 +1,7 @@
 import React from 'react';
 import './ItemImgList.scss';
 import Button from 'components/common/Button';
+import CustomScrollbar from 'components/common/CustomScrollbar';
 import { FiX } from 'react-icons/fi';
 
 const ItemImgList = ({
@@ -55,10 +56,21 @@ const ItemImgList = ({
   });
   return (
     <div className="ItemImgList">
-      <div className="dim" />
+      <div className="dim" onClick={onClose} />
       <div className="modal">
         <h3>쿠폰 상품 이미지를 선택하세요.</h3>
-        <div className="list">{ItemImgArr}</div>
+        <CustomScrollbar
+          autoHeight
+          autoHeightMin={100}
+          autoHeightMax={200}
+          autoHide
+          autoHideTimeout={1000}
+          autoHideDuration={200}
+          thumbMinSize={100}
+          className="scrollbar"
+        >
+          <div className="list">{ItemImgArr}</div>
+        </CustomScrollbar>
         <h3>쿠폰 상품 이름을 입력하세요.</h3>
         <input
           type="text"

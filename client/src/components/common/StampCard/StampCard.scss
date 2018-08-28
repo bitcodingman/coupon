@@ -56,10 +56,12 @@
 				line-height: 2rem;
 				opacity: 0;
 				z-index: 10;
+				transform: scale(0.3);
 
 				&.active {
 					top: -20px;
 					opacity: 1;
+					transform: scale(1);
 				}
 			}
 		}

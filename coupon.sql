@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.7.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 18-08-22 02:02
--- 서버 버전: 5.7.21
--- PHP 버전: 7.1.13
+-- 생성 시간: 18-08-28 06:53
+-- 서버 버전: 5.7.19
+-- PHP 버전: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -65,16 +65,9 @@ CREATE TABLE `coupon_config` (
 
 INSERT INTO `coupon_config` (`couponId`, `storeId`, `stampId`, `couponPublishTerm`, `couponItemName`, `itemImgId`) VALUES
 (1, 1, 1, 5, '아메리카노', 1),
-(2, 1, 1, 10, '수박주스', 1),
-(3, 1, 2, 10, '군만두', 2),
-(4, 1, 2, 20, '탕수육', 2),
-(5, 2, 3, 5, '아메리카노', 1),
-(6, 2, 3, 10, '카페라떼', 1),
-(7, 2, 4, 10, '떡볶이 1인분', 2),
-(8, 2, 4, 20, '돈까스', 2),
-(9, 3, 5, 10, '군만두', 2),
-(10, 3, 5, 20, '탕수육', 2),
-(11, 3, 5, 30, '양장피', 2);
+(2, 1, 1, 10, '수박주스', 2),
+(3, 1, 2, 10, '군만두', 3),
+(4, 1, 2, 20, '탕수육', 4);
 
 -- --------------------------------------------------------
 
@@ -83,14 +76,14 @@ INSERT INTO `coupon_config` (`couponId`, `storeId`, `stampId`, `couponPublishTer
 --
 
 CREATE TABLE `coupon_list` (
-  `couponListId` int(11) NOT NULL,
-  `stampSaveId` int(11) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `storeId` int(11) DEFAULT NULL,
-  `couponId` int(11) DEFAULT NULL,
-  `couponPublishDate` varchar(50) DEFAULT NULL,
-  `couponUseDate` varchar(50) DEFAULT NULL,
-  `couponFinishDate` varchar(50) DEFAULT NULL
+  `coupon_list_id` int(11) NOT NULL,
+  `stamp_save_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `store_id` int(11) DEFAULT NULL,
+  `coupon_id` int(11) DEFAULT NULL,
+  `coupon_publish_date` varchar(50) DEFAULT NULL,
+  `coupon_use_date` varchar(50) DEFAULT NULL,
+  `coupon_finish_date` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -101,9 +94,34 @@ CREATE TABLE `coupon_list` (
 
 CREATE TABLE `item_img` (
   `itemImgId` int(11) NOT NULL,
-  `categoryId` int(11) DEFAULT NULL,
+  `imgCategory` varchar(45) DEFAULT NULL,
   `itemImg` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 테이블의 덤프 데이터 `item_img`
+--
+
+INSERT INTO `item_img` (`itemImgId`, `imgCategory`, `itemImg`) VALUES
+(1, 'drink', 'drink_01'),
+(2, 'drink', 'drink_02'),
+(3, 'drink', 'drink_03'),
+(4, 'drink', 'drink_04'),
+(5, 'drink', 'drink_05'),
+(6, 'drink', 'drink_06'),
+(7, 'drink', 'drink_07'),
+(8, 'food', 'food_01'),
+(9, 'food', 'food_02'),
+(10, 'food', 'food_03'),
+(11, 'food', 'food_04'),
+(12, 'food', 'food_05'),
+(13, 'food', 'food_06'),
+(14, 'food', 'food_07'),
+(15, 'food', 'food_08'),
+(16, 'food', 'food_09'),
+(17, 'food', 'food_10'),
+(18, 'food', 'food_11'),
+(19, 'food', 'food_12');
 
 -- --------------------------------------------------------
 
@@ -115,7 +133,7 @@ CREATE TABLE `stamp` (
   `stampId` int(11) NOT NULL,
   `storeId` int(11) DEFAULT NULL,
   `stampTerm` varchar(40) DEFAULT NULL,
-  `stampMaximum` int(11) DEFAULT NULL
+  `stampMaximum` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -124,10 +142,7 @@ CREATE TABLE `stamp` (
 
 INSERT INTO `stamp` (`stampId`, `storeId`, `stampTerm`, `stampMaximum`) VALUES
 (1, 1, '음료 1잔', 10),
-(2, 1, '식사 한끼', 20),
-(3, 2, '음료1잔', 10),
-(4, 2, '식사한끼', 20),
-(5, 3, '5000원 결제시', 30);
+(2, 1, '식사 1개', 20);
 
 -- --------------------------------------------------------
 
@@ -250,7 +265,7 @@ ALTER TABLE `coupon_config`
 -- 테이블의 인덱스 `coupon_list`
 --
 ALTER TABLE `coupon_list`
-  ADD PRIMARY KEY (`couponListId`);
+  ADD PRIMARY KEY (`coupon_list_id`);
 
 --
 -- 테이블의 인덱스 `item_img`
@@ -297,37 +312,36 @@ ALTER TABLE `user`
 --
 ALTER TABLE `category`
   MODIFY `categoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- 테이블의 AUTO_INCREMENT `coupon_config`
 --
 ALTER TABLE `coupon_config`
-  MODIFY `couponId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `couponId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- 테이블의 AUTO_INCREMENT `coupon_list`
 --
 ALTER TABLE `coupon_list`
-  MODIFY `couponListId` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `coupon_list_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- 테이블의 AUTO_INCREMENT `item_img`
 --
 ALTER TABLE `item_img`
-  MODIFY `itemImgId` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `itemImgId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- 테이블의 AUTO_INCREMENT `stamp_save`
+--
+ALTER TABLE `stamp_save`
+  MODIFY `stampSaveId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- 테이블의 AUTO_INCREMENT `store`
 --
 ALTER TABLE `store`
   MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- 테이블의 AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-COMMIT;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

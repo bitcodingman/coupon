@@ -23,7 +23,6 @@ class MakeStampCard extends Component {
       const couponConfig = couponArr.find(
         coupon => coupon.couponPublishTerm === stamp
       );
-      console.log(couponConfig);
       if (stampList.length === stamp || couponConfig) {
         itemImg = true;
       }

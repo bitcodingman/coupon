@@ -16,6 +16,8 @@ const COUPON_SELECT = 'store/COUPON_SELECT';
 const COUPON_ITEM_NAME = 'store/COUPON_ITEM_NAME';
 const CURRENT_COUPON_INIT = 'store/CURRENT_COUPON_INIT';
 const SET_COUPON_ITEM = 'store/SET_COUPON_ITEM';
+const UPDATE_COUPON_ITEM = 'store/UPDATE_COUPON_ITEM';
+const SORT_COUPON_ITEM = 'store/SORT_COUPON_ITEM';
 
 // action creators
 export const getStampInfo = createAction(GET_STAMP_INFO, api.getStampInfo);
@@ -29,6 +31,8 @@ export const couponItemName = createAction(COUPON_ITEM_NAME);
 export const imgSelect = createAction(IMG_SELECT);
 export const currentCouponInit = createAction(CURRENT_COUPON_INIT);
 export const setCouponItem = createAction(SET_COUPON_ITEM);
+export const updateCouponItem = createAction(UPDATE_COUPON_ITEM);
+export const sortCouponItem = createAction(SORT_COUPON_ITEM);
 
 // initial state
 const initialState = Record({
@@ -116,6 +120,20 @@ export default handleActions(
       return state.updateIn(['makeStampForm', 'couponConfig'], coupon =>
         coupon.push(couponConfig)
       );
+    },
+    [UPDATE_COUPON_ITEM]: (state, action) => {
+      const couponConfig = Record({
+        couponPublishTerm: action.payload.couponPublishTerm,
+        couponItemName: action.payload.couponItemName,
+        itemImgId: action.payload.itemImgId,
+        itemImg: action.payload.itemImg,
+      })();
+      return state.updateIn(['makeStampForm', 'couponConfig'], coupon =>
+        coupon.set(action.payload.couponIndex, couponConfig)
+      );
+    },
+    [SORT_COUPON_ITEM]: (state, action) => {
+      return state.setIn(['makeStampForm', 'couponConfig'], action.payload);
     },
   },
   initialState

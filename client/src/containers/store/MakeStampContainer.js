@@ -63,17 +63,60 @@ class MakeStampContainer extends Component {
     return StoreActions.imgSelect(imgObj);
   };
 
-  handleCouponSet = () => {
-    const { StoreActions, makeStampForm } = this.props;
+  handleSetCoupon = async () => {
+    const { StoreActions } = this.props;
+
+    const couponArr = this.props.makeStampForm.couponConfig.toJS();
+    const couponIndex = obj =>
+      obj.couponPublishTerm ===
+      this.props.makeStampForm.currentCoupon.couponPublishTerm;
+
     const couponConfig = {
-      couponPublishTerm: makeStampForm.currentCoupon.couponPublishTerm,
-      couponItemName: makeStampForm.currentCoupon.couponItemName,
-      itemImgId: makeStampForm.currentCoupon.itemImgId,
-      itemImg: makeStampForm.currentCoupon.itemImg,
+      couponIndex: couponArr.findIndex(couponIndex),
+      couponPublishTerm: this.props.makeStampForm.currentCoupon
+        .couponPublishTerm,
+      couponItemName: this.props.makeStampForm.currentCoupon.couponItemName,
+      itemImgId: this.props.makeStampForm.currentCoupon.itemImgId,
+      itemImg: this.props.makeStampForm.currentCoupon.itemImg,
     };
-    StoreActions.setCouponItem(couponConfig);
-    StoreActions.currentCouponInit();
-    return StoreActions.hideItemImg();
+
+    const couponObj = couponArr.find(
+      coupon => coupon.couponPublishTerm === couponConfig.couponPublishTerm
+    );
+
+    try {
+      if (!couponObj) {
+        await StoreActions.setCouponItem(couponConfig);
+
+        if (!this.props.makeStampForm.couponConfig.isEmpty()) {
+          const sortArr = await this.props.makeStampForm.couponConfig.sort(
+            (a, b) => {
+              if (a.couponPublishTerm > b.couponPublishTerm) {
+                return 1;
+              }
+              if (a.couponPublishTerm < b.couponPublishTerm) {
+                return -1;
+              }
+              return 0;
+            }
+          );
+          await StoreActions.sortCouponItem(sortArr);
+        }
+      } else {
+        await StoreActions.updateCouponItem(couponConfig);
+      }
+
+      await StoreActions.currentCouponInit();
+      await StoreActions.hideItemImg();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSetCoupon();
+    }
   };
 
   render() {
@@ -88,7 +131,8 @@ class MakeStampContainer extends Component {
           onChange={this.handleChange}
           onSelect={this.handleSelect}
           onClose={this.handleClose}
-          setCoupon={this.handleCouponSet}
+          onKeyPress={this.handleKeyPress}
+          setCoupon={this.handleSetCoupon}
         />
         <HideTab />
       </div>

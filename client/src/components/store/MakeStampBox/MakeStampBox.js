@@ -13,6 +13,7 @@ const MakeStampBox = ({
   onChange,
   onSelect,
   onClose,
+  onKeyPress,
   setCoupon,
 }) => {
   const optionArr = () => {
@@ -31,17 +32,7 @@ const MakeStampBox = ({
 
   let couponList = [];
   if (!makeStamp.couponConfig.isEmpty()) {
-    const sortArr = makeStamp.couponConfig.sort((a, b) => {
-      if (a.couponPublishTerm > b.couponPublishTerm) {
-        return 1;
-      }
-      if (a.couponPublishTerm < b.couponPublishTerm) {
-        return -1;
-      }
-      return 0;
-    });
-
-    couponList = sortArr.map(coupon => (
+    couponList = makeStamp.couponConfig.map(coupon => (
       <MakeStampCoupon key={coupon} coupon={coupon} />
     ));
   }
@@ -55,6 +46,7 @@ const MakeStampBox = ({
           imgSelect={imgSelect}
           onClose={onClose}
           onChange={onChange}
+          onKeyPress={onKeyPress}
           setCoupon={setCoupon}
         />
       ) : null}

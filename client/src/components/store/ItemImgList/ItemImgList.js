@@ -9,20 +9,43 @@ const ItemImgList = ({
   onClose,
   imgSelect,
   onChange,
+  onKeyPress,
   setCoupon,
 }) => {
+  const couponConfig = makeStamp.couponConfig.find(
+    coupon =>
+      coupon.couponPublishTerm === makeStamp.currentCoupon.couponPublishTerm
+  );
+
+  let itemName = '';
+  if (couponConfig) {
+    itemName = couponConfig.couponItemName;
+  }
+
   const ItemImgArr = itemImgList.map(item => {
-    const itemList = item.imgList.map(img => (
-      <div
-        key={img.itemImgId}
-        className={`img ${
-          makeStamp.currentCoupon.itemImgId === img.itemImgId ? 'active' : ''
-        }`}
-        onClick={() => imgSelect(img.itemImgId, img.itemImg)}
-      >
-        <i className={`icon-${img.itemImg}`} />
-      </div>
-    ));
+    const itemList = item.imgList.map(img => {
+      let active = false;
+      if (makeStamp.currentCoupon.itemImgId === img.itemImgId) {
+        active = true;
+      }
+      if (
+        couponConfig &&
+        couponConfig.itemImgId === img.itemImgId &&
+        makeStamp.currentCoupon.itemImgId === null
+      ) {
+        active = true;
+      }
+
+      return (
+        <div
+          key={img.itemImgId}
+          className={`img ${active ? 'active' : ''}`}
+          onClick={() => imgSelect(img.itemImgId, img.itemImg)}
+        >
+          <i className={`icon-${img.itemImg}`} />
+        </div>
+      );
+    });
     return (
       <div key={item.imgCategory} className="category">
         <h3>{item.imgCategory}</h3>
@@ -37,9 +60,16 @@ const ItemImgList = ({
         <h3>쿠폰 상품 이미지를 선택하세요.</h3>
         <div className="list">{ItemImgArr}</div>
         <h3>쿠폰 상품 이름을 입력하세요.</h3>
-        <input type="text" name="couponItemName" onChange={onChange} />
-        <Button onClick={setCoupon}>확인</Button>
-        <Button>취소</Button>
+        <input
+          type="text"
+          name="couponItemName"
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+          placeholder={itemName}
+        />
+        <Button theme="confirm" onClick={setCoupon}>
+          확인
+        </Button>
         <Button theme="close" onClick={onClose}>
           <FiX />
         </Button>

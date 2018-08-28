@@ -24,6 +24,19 @@
       background: #362e68;
       color: $dark-txt-hover;
     }
+	}
+	&.confirm {
+		display: block;
+		border-radius: 4px;
+		padding: 0.6rem 1.4rem;
+		margin: 1.5rem auto 0;
+		background: $btn-base;
+		color: $dark-txt-hover;
+		font-size: 1.4rem;
+
+    &:hover {
+      background: $btn-base-hover;
+    }
   }
 	&.highlight {
 		display: block;
@@ -46,6 +59,27 @@
 		width: 4rem; height: 4rem;
 		font-size: 2rem;
 		padding: 1rem;
+	}
+	&.icon {
+		background: transparent;
+		color: $icon-base;
+		position: absolute;
+		top: 0; right: 0;
+		font-size: 1.6rem;
+		padding: 0;
+		text-align: center;
+		&:hover {
+			color: $icon-hover;
+		}
+		svg {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto;
+		}
+	}
+	&.trash {
+		width: 4rem; height: 4rem;
 	}
 	&.w80 { width: 80%; }
 	&.w100 { width: 100%; }

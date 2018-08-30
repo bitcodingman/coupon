@@ -33,13 +33,40 @@ class MakeStampContainer extends Component {
 
   handleChange = e => {
     const { name, value } = e.target;
-    const { StoreActions } = this.props;
+    const { StoreActions, makeStampForm } = this.props;
     if (name === 'couponItemName') {
       return StoreActions.couponItemName(value);
     }
+
+    let nextValue = value;
+
+    if (
+      name === 'stampMaximum' &&
+      Number(nextValue) < makeStampForm.stampMaximum
+    ) {
+      const min = Number(nextValue) + 1;
+      const max = makeStampForm.stampMaximum;
+
+      for (let i = min; i <= max; i++) {
+        const couponArr = makeStampForm.couponConfig.toJS();
+        const couponObj = couponArr.find(
+          coupon => coupon.couponPublishTerm === i
+        );
+        if (couponObj) {
+          const couponIndex = obj => obj.couponPublishTerm === i;
+          const couponId = makeStampForm.couponConfig.findIndex(couponIndex);
+          StoreActions.delCouponItem(couponId);
+        }
+      }
+    }
+
+    if (name === 'stampMaximum') {
+      nextValue = Number(value);
+    }
+
     const input = {
       name,
-      value,
+      value: nextValue,
     };
     return StoreActions.changeInput(input);
   };
@@ -70,12 +97,8 @@ class MakeStampContainer extends Component {
       const { StoreActions } = this.props;
 
       const couponArr = this.props.makeStampForm.couponConfig.toJS();
-      const couponIndex = obj =>
-        obj.couponPublishTerm ===
-        this.props.makeStampForm.currentCoupon.couponPublishTerm;
 
       const couponConfig = {
-        couponIndex: couponArr.findIndex(couponIndex),
         couponPublishTerm: this.props.makeStampForm.currentCoupon
           .couponPublishTerm,
         couponItemName: this.props.makeStampForm.currentCoupon.couponItemName,

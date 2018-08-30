@@ -97,8 +97,12 @@ class MakeStampContainer extends Component {
       const { StoreActions } = this.props;
 
       const couponArr = this.props.makeStampForm.couponConfig.toJS();
+      const couponIndex = obj =>
+        obj.couponPublishTerm ===
+        this.props.makeStampForm.currentCoupon.couponPublishTerm;
 
       const couponConfig = {
+        couponIndex: couponArr.findIndex(couponIndex),
         couponPublishTerm: this.props.makeStampForm.currentCoupon
           .couponPublishTerm,
         couponItemName: this.props.makeStampForm.currentCoupon.couponItemName,

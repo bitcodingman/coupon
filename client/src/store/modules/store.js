@@ -42,7 +42,7 @@ export const couponConfigInit = createAction(COUPON_CONFIG_INIT);
 
 // initial state
 const initialState = Record({
-  tabSelected: 'Stamp',
+  tabSelected: 'stamp',
   stampList: List([]),
   itemImgList: List([]),
   makeStampForm: Record({

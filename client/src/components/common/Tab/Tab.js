@@ -17,14 +17,14 @@ const TabItem = ({ children, tab, count, selected, onSelect }) => (
 const Tab = ({ stampList, selected, onSelect }) => (
   <div className="Tab">
     <TabItem
-      tab="Stamp"
+      tab="stamp"
       selected={selected}
       count={stampList}
       onSelect={onSelect}
     >
       우리매장 스탬프
     </TabItem>
-    <TabItem tab="Guest" selected={selected} onSelect={onSelect}>
+    <TabItem tab="guest" selected={selected} onSelect={onSelect}>
       적립중인 회원
     </TabItem>
   </div>

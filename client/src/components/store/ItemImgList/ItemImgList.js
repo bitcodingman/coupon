@@ -54,6 +54,7 @@ const ItemImgList = ({
       </div>
     );
   });
+
   return (
     <div className="ItemImgList">
       <div className="dim" onClick={onClose} />

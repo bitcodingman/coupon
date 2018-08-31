@@ -6,9 +6,9 @@ class StoreContainer extends Component {
   render() {
     const { stampList, tabSelected } = this.props;
     let el;
-    if (tabSelected === 'Stamp') {
+    if (tabSelected === 'stamp') {
       el = <StampContainer />;
-    } else if (tabSelected === 'Guest') {
+    } else if (tabSelected === 'guest') {
       el = <GuestContainer />;
     }
 

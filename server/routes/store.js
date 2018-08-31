@@ -114,36 +114,49 @@ router.post('/setstamp', (req, res) => {
         });
     }
 
-    delete req.body.stampInfo.couponConfig;
-
-    let query = req.body.stampInfo;
-
-    model.store.store.setStamp(query, (err, r) => {
+    model.store.store.insert_stamp( req.body.stampInfo
+        , (err, r) => {
         if (err) {
             throw err;
         }
-
-        let query = couponConfig.map(coupon => {
-            const values = [];
-            values.push(storeId);
-            values.push(r.insertId);
-            for (let key in coupon) {
-                values.push(coupon[key]);
-            }
-            return values;
-        });
-
-        model.store.store.setCoupon(query, (err, r) => {
-            if (err) {
-                throw err;
-            }
-            return res.json({
-                isErr: false,
-                msg: '스탬프 정보를 저장했습니다.',
-                data: null,
-            });
+        return res.json({
+            isErr: false,
+            msg: '스탬프 정보를 저장했습니다.',
+            data: null,
         });
     });
+ 
+
+    // delete req.body.stampInfo.couponConfig;
+
+    // let query = req.body.stampInfo;
+
+    // model.store.store.setStamp(query, (err, r) => {
+    //     if (err) {
+    //         throw err;
+    //     }
+
+    //     let query = couponConfig.map(coupon => {
+    //         const values = [];
+    //         values.push(storeId);
+    //         values.push(r.insertId);
+    //         for (let key in coupon) {
+    //             values.push(coupon[key]);
+    //         }
+    //         return values;
+    //     });
+
+    //     model.store.store.setCoupon(query, (err, r) => {
+    //         if (err) {
+    //             throw err;
+    //         }
+    //         return .json({res
+    //             isErr: false,
+    //             msg: '스탬프 정보를 저장했습니다.',
+    //             data: null,
+    //         });
+    //     });
+    // });
 });
 
 module.exports = router;

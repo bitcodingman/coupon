@@ -53,6 +53,10 @@ class rds_Interface {
     execute(_sql, _values, _callback) {
         return false;
     }
+
+    transaction( _body, _callback) {
+        return false;
+    }
 }
 
 class c_mysql extends rds_Interface {
@@ -170,6 +174,41 @@ class c_mysql extends rds_Interface {
             });
         });
     }
+
+    transaction( _body, _callback) {
+
+        this._d.getConnection((err, conn) => {
+          if (err) return callback(err);
+      
+          conn.beginTransaction((err) => {
+            if (err) return done( true, err);
+      
+            _body(conn, (err, ...args) => {
+              // Commit or rollback transaction, then proxy callback
+      
+              if (err) {
+                if (err == 'rollback') {
+                  args.unshift(null);
+                }
+                conn.rollback(() => { done( true, ...args) });
+              } else {
+
+                // error 가 null 인 경우 commit 되도록 되어 있음
+                conn.commit((err) => {
+                  args.unshift(err);
+                  done(false, ...args);
+                })
+              }
+            });
+      
+            function done(err, ...args) {
+              conn.release();
+              _callback(err, ...args);
+            }
+          }); 
+        }) 
+    } 
+
 }
 
 module.exports = c_mysql;

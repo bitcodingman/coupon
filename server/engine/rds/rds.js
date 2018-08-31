@@ -105,6 +105,18 @@ var rds = {
 
         return this.vars.d.execute(_sql, _values, _callback);
     },
+
+    transaction ( _body, _dsn, _callback) {
+        if (this.dsn_get(_dsn) == false) {
+            return -1;
+        }
+ 
+        if (this.rds_init(this.vars.dsn) == false) {
+            return -2;
+        }
+
+        return this.vars.d.transaction( _body, _callback); 
+    }
 };
 
 module.exports = rds;

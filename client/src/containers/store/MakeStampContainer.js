@@ -72,8 +72,22 @@ class MakeStampContainer extends Component {
   };
 
   handleSelect = id => {
-    const { StoreActions } = this.props;
+    const { StoreActions, makeStampForm } = this.props;
     StoreActions.couponSelect(id);
+
+    const couponConfig = makeStampForm.couponConfig.find(
+      coupon => coupon.couponPublishTerm === id
+    );
+
+    if (couponConfig) {
+      StoreActions.couponItemName(couponConfig.couponItemName);
+      const imgObj = {
+        itemImgId: couponConfig.itemImgId,
+        itemImg: couponConfig.itemImg,
+      };
+      StoreActions.imgSelect(imgObj);
+    }
+
     return StoreActions.showItemImg();
   };
 

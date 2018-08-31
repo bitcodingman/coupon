@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Title from 'components/store/Title';
 import StampList from 'components/store/StampList';
 import Button from 'components/common/Button';
+import Background from 'components/common/Background';
 import './StampContainer.scss';
 import * as storeActions from 'store/modules/store';
 
@@ -29,6 +30,7 @@ class StampContainer extends Component {
 
     return (
       <div className="StampContainer">
+        <Background color="#6c5cce" />
         <Title>{storeInfo.storeName}</Title>
         <StampList stampList={stampList} />
         <Button theme="highlight w80" onClick={this.handleLocation}>

@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as storeActions from 'store/modules/store';
+import * as baseActions from 'store/modules/base';
 import Tab from 'components/common/Tab';
 
 class TabContainer extends Component {
   handleSelect = tab => {
-    const { StoreActions } = this.props;
-    StoreActions.tabSelect(tab);
+    const { BaseActions } = this.props;
+    BaseActions.tabSelect(tab);
   };
 
   render() {
-    const { stampList, visible, selected } = this.props;
+    const { stampList, visible, selected, userType } = this.props;
     if (!visible) return null;
     return (
       <Tab
+        userType={userType}
         selected={selected}
         stampList={stampList}
         onSelect={this.handleSelect}
@@ -26,8 +27,9 @@ class TabContainer extends Component {
 export default connect(
   ({ base }) => ({
     visible: base.tab,
+    userType: base.data.userType,
   }),
   dispatch => ({
-    StoreActions: bindActionCreators(storeActions, dispatch),
+    BaseActions: bindActionCreators(baseActions, dispatch),
   })
 )(TabContainer);

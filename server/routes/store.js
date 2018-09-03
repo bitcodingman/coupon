@@ -6,7 +6,7 @@ var app = express();
 app.use(bodyParser.json());
 
 /* 쿠폰 아이템 이미지 가져오기 */
-router.get('/getitemimg', (req, res) => {
+router.get('/itemimg', (req, res) => {
     let query = [{ key: 'itemImgId', value: 'itemImgId' }];
     model.store.store.itemImgList(query, (err, r) => {
         if (is_empty(r)) {
@@ -47,7 +47,7 @@ router.get('/getitemimg', (req, res) => {
 });
 
 /* 스탬프 정보 가져오기 */
-router.post('/getinfo', (req, res) => {
+router.post('/stampinfo', (req, res) => {
     let query = [{ key: 'storeId', value: req.body.storeId }];
     model.store.store.list(query, (err, r) => {
         let stampList = [];
@@ -114,8 +114,7 @@ router.post('/setstamp', (req, res) => {
         });
     }
 
-    model.store.store.insert_stamp( req.body.stampInfo
-        , (err, r) => {
+    model.store.store.insert_stamp(req.body.stampInfo, (err, r) => {
         if (err) {
             throw err;
         }
@@ -125,38 +124,6 @@ router.post('/setstamp', (req, res) => {
             data: null,
         });
     });
- 
-
-    // delete req.body.stampInfo.couponConfig;
-
-    // let query = req.body.stampInfo;
-
-    // model.store.store.setStamp(query, (err, r) => {
-    //     if (err) {
-    //         throw err;
-    //     }
-
-    //     let query = couponConfig.map(coupon => {
-    //         const values = [];
-    //         values.push(storeId);
-    //         values.push(r.insertId);
-    //         for (let key in coupon) {
-    //             values.push(coupon[key]);
-    //         }
-    //         return values;
-    //     });
-
-    //     model.store.store.setCoupon(query, (err, r) => {
-    //         if (err) {
-    //             throw err;
-    //         }
-    //         return .json({res
-    //             isErr: false,
-    //             msg: '스탬프 정보를 저장했습니다.',
-    //             data: null,
-    //         });
-    //     });
-    // });
 });
 
 module.exports = router;

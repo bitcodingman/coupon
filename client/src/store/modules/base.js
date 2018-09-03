@@ -15,6 +15,7 @@ const SET_USER = 'base/SET_USER';
 // tab visiblity 액션
 const HIDE_TAB = 'base/HIDE_TAB';
 const SHOW_TAB = 'base/SHOW_TAB';
+const TAB_SELECT = 'base/TAB_SELECT';
 
 // action creators
 export const login = createAction(LOGIN, api.login);
@@ -26,9 +27,11 @@ export const setUser = createAction(SET_USER);
 
 export const hideTab = createAction(HIDE_TAB);
 export const showTab = createAction(SHOW_TAB);
+export const tabSelect = createAction(TAB_SELECT);
 
 // initial state
 const initialState = Record({
+  tabSelected: 'stamp',
   email: '',
   password: '',
   logged: false,
@@ -88,6 +91,9 @@ export default handleActions(
     },
     [SHOW_TAB]: state => {
       return state.set('tab', true);
+    },
+    [TAB_SELECT]: (state, action) => {
+      return state.set('tabSelected', action.payload);
     },
   },
   initialState

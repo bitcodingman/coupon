@@ -6,7 +6,7 @@ var app = express();
 app.use(bodyParser.json());
 
 /* GET users listing. */
-router.get('/getsession', (req, res) => {
+router.get('/session', (req, res) => {
     const sessionData = model.user.session.get(req);
     if (is_empty(sessionData)) {
         return res.json({

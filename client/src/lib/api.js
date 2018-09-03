@@ -8,14 +8,14 @@ export const login = (email, password) =>
 export const logout = () => axios.post('/api/account/logout');
 
 // 로그인상태확인 요청
-export const checkLogin = () => axios.get('/api/account/getsession');
+export const checkLogin = () => axios.get('/api/account/session');
 
 // 스토어정보 가져오기
 export const getStampInfo = storeId =>
-  axios.post('/api/store/getinfo', { storeId });
+  axios.post('/api/store/stampinfo', { storeId });
 
 // 아이템 이미지 요청
-export const getItemImg = () => axios.get('/api/store/getitemimg');
+export const getItemImg = () => axios.get('/api/store/itemimg');
 
 // 스탬프 저장하기
 export const setStamp = stampInfo =>

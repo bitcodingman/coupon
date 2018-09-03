@@ -8,7 +8,7 @@ class StoreContainer extends Component {
     let el;
     if (tabSelected === 'stamp') {
       el = <StampContainer />;
-    } else if (tabSelected === 'guest') {
+    } else if (tabSelected === 'consumer') {
       el = <GuestContainer />;
     }
 
@@ -21,7 +21,7 @@ class StoreContainer extends Component {
   }
 }
 
-export default connect(({ store }) => ({
-  tabSelected: store.tabSelected,
+export default connect(({ store, base }) => ({
+  tabSelected: base.tabSelected,
   stampList: store.stampList,
 }))(StoreContainer);

@@ -11,7 +11,6 @@ const SET_STAMP = 'store/SET_STAMP';
 const SHOW_ITEM_IMG = 'store/SHOW_ITEM_IMG';
 const HIDE_ITEM_IMG = 'store/HIDE_ITEM_IMG';
 const CHANGE_INPUT = 'store/CHANGE_INPUT';
-const TAB_SELECT = 'store/TAB_SELECT';
 const IMG_SELECT = 'store/IMG_SELECT';
 const COUPON_SELECT = 'store/COUPON_SELECT';
 const COUPON_ITEM_NAME = 'store/COUPON_ITEM_NAME';
@@ -29,7 +28,6 @@ export const setStamp = createAction(SET_STAMP, api.setStamp);
 export const showItemImg = createAction(SHOW_ITEM_IMG);
 export const hideItemImg = createAction(HIDE_ITEM_IMG);
 export const changeInput = createAction(CHANGE_INPUT);
-export const tabSelect = createAction(TAB_SELECT);
 export const couponSelect = createAction(COUPON_SELECT);
 export const couponItemName = createAction(COUPON_ITEM_NAME);
 export const imgSelect = createAction(IMG_SELECT);
@@ -42,7 +40,6 @@ export const couponConfigInit = createAction(COUPON_CONFIG_INIT);
 
 // initial state
 const initialState = Record({
-  tabSelected: 'stamp',
   stampList: List([]),
   itemImgList: List([]),
   makeStampForm: Record({
@@ -87,9 +84,6 @@ export default handleActions(
     [CHANGE_INPUT]: (state, action) => {
       const { name, value } = action.payload;
       return state.setIn(['makeStampForm', name], value);
-    },
-    [TAB_SELECT]: (state, action) => {
-      return state.set('tabSelected', action.payload);
     },
     [IMG_SELECT]: (state, action) => {
       return state

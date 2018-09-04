@@ -31,11 +31,11 @@ export const tabSelect = createAction(TAB_SELECT);
 
 // initial state
 const initialState = Record({
+  tab: true,
   tabSelected: 'stamp',
   email: '',
   password: '',
   logged: false,
-  tab: true,
   data: {},
   storeInfo: {},
 })();

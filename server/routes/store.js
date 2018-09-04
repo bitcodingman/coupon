@@ -51,32 +51,28 @@ router.post('/stampinfo', (req, res) => {
     let query = [{ key: 'storeId', value: req.body.storeId }];
     model.store.store.list(query, (err, r) => {
         let stampList = [];
-        const setData = stamp => {
+
+        for (let i = 0; i < r.length; i++) {
             let stampObj = stampList.find(listItem => {
-                return listItem.stampId === stamp.stampId;
+                return listItem.stampId === r[i].stampId;
             });
 
             if (is_empty(stampObj)) {
                 stampObj = {
-                    stampId: stamp.stampId,
-                    stampTerm: stamp.stampTerm,
-                    stampMaximum: stamp.stampMaximum,
+                    stampId: r[i].stampId,
+                    stampTerm: r[i].stampTerm,
+                    stampMaximum: r[i].stampMaximum,
                     couponConfig: [],
                 };
                 stampList.push(stampObj);
             }
             stampObj.couponConfig.push({
-                couponId: stamp.couponId,
-                couponPublishTerm: stamp.couponPublishTerm,
-                couponItemName: stamp.couponItemName,
-                imgCategory: stamp.imgCategory,
-                itemImg: stamp.itemImg,
+                couponId: r[i].couponId,
+                couponPublishTerm: r[i].couponPublishTerm,
+                couponItemName: r[i].couponItemName,
+                imgCategory: r[i].imgCategory,
+                itemImg: r[i].itemImg,
             });
-            return stampList;
-        };
-
-        for (let i = 0; i < r.length; i++) {
-            setData(r[i]);
         }
 
         if (is_empty(stampList)) {

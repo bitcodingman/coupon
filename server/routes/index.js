@@ -9,4 +9,8 @@ router.use('/account', account);
 const store = require('./store');
 router.use('/store', store);
 
+// consumer
+const consumer = require('./consumer');
+router.use('/consumer', consumer);
+
 module.exports = router;

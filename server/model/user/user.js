@@ -22,7 +22,7 @@ var user = {
             }
         });
 
-        var sql = `select *
+        var sql = `select userId, userType, email, pw, name, barcode
         from 
             user U
         where 
@@ -60,7 +60,7 @@ var user = {
             }
         });
 
-        var sql = `select *
+        var sql = `select userId, userType, email, name, barcode
             from 
                 user U
             where 

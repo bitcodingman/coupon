@@ -5,7 +5,7 @@ import { pender } from 'redux-pender';
 import * as api from 'lib/api';
 
 // action types
-const GET_STAMP_INFO = 'store/GET_STAMP_INFO';
+const GET_STAMP_LIST = 'store/GET_STAMP_LIST';
 const GET_ITEM_IMG = 'store/GET_ITEM_IMG';
 const SET_STAMP = 'store/SET_STAMP';
 const SHOW_ITEM_IMG = 'store/SHOW_ITEM_IMG';
@@ -22,7 +22,7 @@ const DEL_COUPON_ITEM = 'store/DEL_COUPON_ITEM';
 const COUPON_CONFIG_INIT = 'store/COUPON_CONFIG_INIT';
 
 // action creators
-export const getStampInfo = createAction(GET_STAMP_INFO, api.getStampInfo);
+export const getStampList = createAction(GET_STAMP_LIST, api.getStampList);
 export const getItemImg = createAction(GET_ITEM_IMG, api.getItemImg);
 export const setStamp = createAction(SET_STAMP, api.setStamp);
 export const showItemImg = createAction(SHOW_ITEM_IMG);
@@ -60,7 +60,7 @@ const initialState = Record({
 export default handleActions(
   {
     ...pender({
-      type: GET_STAMP_INFO,
+      type: GET_STAMP_LIST,
       onSuccess: (state, action) => {
         return state.set('stampList', action.payload.data.data);
       },

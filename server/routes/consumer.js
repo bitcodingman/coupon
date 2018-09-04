@@ -6,52 +6,111 @@ var app = express();
 app.use(bodyParser.json());
 
 /* 적립중인 스탬프 가져오기 */
-router.post('/savestamp', (req, res) => {
-    let query = { userId: 1 };
-    model.consumer.consumer.list(query, (err, r) => {
-        let stampList = [];
+router.post('/savingStampList', (req, res) => {
+    let query = { userId: req.body.userId };
+    model.consumer.consumer.stampList(query, (err, r) => {
+        if (err) {
+            throw err;
+        }
 
-        for (let i = 0; i < r.length; i++) {
-            let stampObj = stampList.find(listItem => {
-                return listItem.stampId === r[i].stampId;
-            });
-
-            if (is_empty(stampObj)) {
-                stampObj = {
-                    storeName: r[i].storeName,
-                    storePhone: r[i].storePhone,
-                    addressSi: r[i].addressSi,
-                    addressGu: r[i].addressGu,
-                    addressDong: r[i].addressDong,
-                    addressDetail: r[i].addressDetail,
-                    stampId: r[i].stampId,
-                    stampTerm: r[i].stampTerm,
-                    stampMaximum: r[i].stampMaximum,
-                    stampPublishDate: r[i].stampPublishDate,
-                    stampFinishDate: r[i].stampFinishDate,
-                    couponConfig: [],
-                };
-                stampList.push(stampObj);
-            }
-            stampObj.couponConfig.push({
-                couponId: r[i].couponId,
-                couponPublishTerm: r[i].couponPublishTerm,
-                couponItemName: r[i].couponItemName,
-                itemImg: r[i].itemImg,
+        if (is_empty(r)) {
+            return res.json({
+                isErr: true,
+                msg: '적립중인 스탬프가 없습니다.',
+                data: null,
             });
         }
 
-        let query = { userId: 1, stampId: stampList[0].stampId };
+        const stampInfo = r;
+
         model.consumer.consumer.history(query, (err, r) => {
-            stampList.saveHistory = r;
-            res.json(stampList);
+            if (err) {
+                throw err;
+            }
+
+            if (is_empty(r)) {
+                return res.json({
+                    isErr: true,
+                    msg: '적립중인 내역이 없습니다.',
+                    data: null,
+                });
+            }
+
+            let stampList = [];
+
+            for (let i = 0; i < stampInfo.length; i++) {
+                let stampObj = stampList.find(listItem => {
+                    return listItem.stampId === stampInfo[i].stampId;
+                });
+
+                if (is_empty(stampObj)) {
+                    const result = r.filter(listItem => {
+                        return listItem.stampId === stampInfo[i].stampId;
+                    });
+
+                    const history = result.map(list => ({
+                        stampSaveNo: list.stampSaveNo,
+                        stampSaveDate: list.stampSaveDate,
+                    }));
+
+                    stampObj = {
+                        storeName: stampInfo[i].storeName,
+                        storePhone: stampInfo[i].storePhone,
+                        addressSi: stampInfo[i].addressSi,
+                        addressGu: stampInfo[i].addressGu,
+                        addressDong: stampInfo[i].addressDong,
+                        addressDetail: stampInfo[i].addressDetail,
+                        stampId: stampInfo[i].stampId,
+                        stampTerm: stampInfo[i].stampTerm,
+                        stampMaximum: stampInfo[i].stampMaximum,
+                        stampPublishDate: stampInfo[i].stampPublishDate,
+                        stampFinishDate: stampInfo[i].stampFinishDate,
+                        couponConfig: [],
+                        saveHistory: history,
+                    };
+
+                    stampList.push(stampObj);
+                }
+
+                stampObj.couponConfig.push({
+                    couponId: stampInfo[i].couponId,
+                    couponPublishTerm: stampInfo[i].couponPublishTerm,
+                    couponItemName: stampInfo[i].couponItemName,
+                    itemImg: stampInfo[i].itemImg,
+                });
+            }
+
+            return res.json({
+                isErr: false,
+                msg: '적립중인 스탬프 내역을 가져왔습니다.',
+                data: stampList,
+            });
         });
     });
 });
 
 /* 사용가능한 쿠폰 가져오기 */
-router.get('/currentcouponlist', (req, res) => {
-    res.send('사용가능한 쿠폰 리스트');
+router.post('/couponList', (req, res) => {
+    let query = { userId: req.body.userId };
+    model.consumer.consumer.couponList(query, (err, r) => {
+        if (err) {
+            throw err;
+        }
+
+        if (is_empty(r)) {
+            return res.json({
+                isErr: true,
+                msg: '사용가능한 쿠폰이 없습니다.',
+                data: null,
+            });
+        }
+
+        return res.json({
+            isErr: false,
+            msg: '적립중인 스탬프 내역을 가져왔습니다.',
+            data: r,
+        });
+    });
 });
 
 module.exports = router;

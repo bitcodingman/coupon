@@ -12,7 +12,7 @@ import * as storeActions from 'store/modules/store';
 class StampContainer extends Component {
   componentDidMount() {
     const { StoreActions, storeInfo } = this.props;
-    StoreActions.getStampInfo(storeInfo.storeId);
+    StoreActions.getStampList(storeInfo.storeId);
   }
 
   shouldComponentUpdate(nextProps) {

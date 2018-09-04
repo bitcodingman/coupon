@@ -1,15 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { TabContainer, SaveContainer, CouponContainer } from 'containers';
+import * as consumerActions from 'store/modules/consumer';
 
 class ConsumerContainer extends Component {
+  componentDidMount() {
+    const { ConsumerActions, userId } = this.props;
+    ConsumerActions.getSavingStampList(userId);
+    ConsumerActions.getCouponList(userId);
+  }
+
   render() {
-    const { tabSelected } = this.props;
+    const { tabSelected, stampList, couponList } = this.props;
     let el;
     if (tabSelected === 'stamp') {
-      el = <SaveContainer />;
+      el = <SaveContainer stampList={stampList} />;
     } else if (tabSelected === 'coupon') {
-      el = <CouponContainer />;
+      el = <CouponContainer couponList={couponList} />;
     }
 
     return (
@@ -21,6 +29,14 @@ class ConsumerContainer extends Component {
   }
 }
 
-export default connect(({ base }) => ({
-  tabSelected: base.tabSelected,
-}))(ConsumerContainer);
+export default connect(
+  ({ base, consumer }) => ({
+    userId: base.data.userId,
+    tabSelected: base.tabSelected,
+    stampList: consumer.stampList,
+    couponList: consumer.couponList,
+  }),
+  dispatch => ({
+    ConsumerActions: bindActionCreators(consumerActions, dispatch),
+  })
+)(ConsumerContainer);

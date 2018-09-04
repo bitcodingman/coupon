@@ -46,10 +46,22 @@ router.get('/itemimg', (req, res) => {
     });
 });
 
-/* 스탬프 정보 가져오기 */
-router.post('/stampinfo', (req, res) => {
+/* 스탬프 리스트 가져오기 */
+router.post('/stampList', (req, res) => {
     let query = [{ key: 'storeId', value: req.body.storeId }];
     model.store.store.list(query, (err, r) => {
+        if (err) {
+            throw err;
+        }
+
+        if (is_empty(r)) {
+            return res.json({
+                isErr: true,
+                msg: '스탬프 정보를 찾지 못했습니다.',
+                data: null,
+            });
+        }
+
         let stampList = [];
 
         for (let i = 0; i < r.length; i++) {
@@ -75,14 +87,6 @@ router.post('/stampinfo', (req, res) => {
             });
         }
 
-        if (is_empty(stampList)) {
-            return res.json({
-                isErr: true,
-                msg: '스탬프 정보를 찾지 못했습니다.',
-                data: null,
-            });
-        }
-
         return res.json({
             isErr: false,
             msg: '스토어정보를 가져왔습니다.',
@@ -92,7 +96,7 @@ router.post('/stampinfo', (req, res) => {
 });
 
 /* 스탬프 저장하기 */
-router.post('/setstamp', (req, res) => {
+router.post('/setStamp', (req, res) => {
     const { couponConfig, storeId } = req.body.stampInfo;
     if (is_empty(req.body.stampInfo.stampMaximum)) {
         return res.json({

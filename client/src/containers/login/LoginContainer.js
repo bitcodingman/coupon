@@ -30,7 +30,7 @@ class LoginContainer extends Component {
       localStorage.logged = 'true';
 
       if (auth.data.data.userType === 1) {
-        await StoreActions.getStampInfo(auth.data.data.storeInfo.storeId);
+        await StoreActions.getStampList(auth.data.data.storeInfo.storeId);
       }
       history.push(`/`);
 

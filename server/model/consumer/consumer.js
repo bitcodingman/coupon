@@ -7,19 +7,19 @@ var consumer = {
 
         _query.forEach(function(e) {
             if (e.key === 'userId') {
-                where_query = util.format('%s AND S.userId = ?', where_query);
+                where_query = util.format('%s AND U.userId = ?', where_query);
                 values.push(e.value);
             }
 
             if (e.key === 'name') {
-                where_query = util.format('%s AND S.name = ?', where_query);
+                where_query = util.format('%s AND U.name = ?', where_query);
                 values.push(util.format(e.value));
             }
         });
 
         var sql = `select *
         from 
-            store S
+            user U
         where 
             {where_query}
         `.replace('{where_query}', where_query);
@@ -27,7 +27,7 @@ var consumer = {
         engine.rds.row(sql, values, 'cp', _callback);
     },
 
-    list: function(_query, _callback) {
+    stampList: function(_query, _callback) {
         var values = [];
         var where_query = '1=1';
 
@@ -42,15 +42,13 @@ var consumer = {
 					from 
 							store ST join stamp_save SS join stamp T join coupon_config C join item_img I
 					ON
-							T.storeId = C.storeId
-					AND 
 							SS.storeId = ST.storeId
 					AND 
 							T.stampId = C.stampId
 					AND 
+							T.stampId = SS.stampId
+					AND 
 							C.itemImgId = I.itemImgId
-					AND
-							T.storeId = SS.storeId
 					AND
 							{where_query}
 				`.replace('{where_query}', where_query);
@@ -74,13 +72,45 @@ var consumer = {
 
         var sql = `
 						select
-								stampSaveNo, stampSaveDate
+								stampId, stampSaveNo, stampSaveDate
 						from
 								stamp_save SS join stamp_save_history SH
 						on
 								SS.stampSaveId = SH.stampSaveId
 						and
 								{where_query}`.replace('{where_query}', where_query);
+
+        engine.rds.rows(sql, values, 'cp', _callback);
+    },
+
+    couponList: function(_query, _callback) {
+        var values = [];
+        var where_query = '1=1';
+
+        if (_query.hasOwnProperty('userId')) {
+            where_query = util.format('%s AND CL.userId = ?', where_query);
+            values.push(_query.userId);
+        }
+
+        var sql = `
+					select
+							storeName, couponItemName, couponFinishDate, itemImg
+					from 
+							coupon_config CC join coupon_list CL join item_img I join store S
+					ON
+							CC.couponId = CL.couponId
+					AND 
+							CL.storeId = S.storeId
+					AND 
+							CC.itemImgId = I.itemImgId
+					AND 
+							CL.couponUseDate is null
+					AND
+							CL.couponFinishDate > now()
+					AND
+							{where_query}
+					ORDER BY CL.couponFinishDate ASC
+				`.replace('{where_query}', where_query);
 
         engine.rds.rows(sql, values, 'cp', _callback);
     },

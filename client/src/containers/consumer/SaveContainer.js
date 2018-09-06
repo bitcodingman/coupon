@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import StampList from 'components/store/StampList';
+import Background from 'components/common/Background';
 
 class SaveContainer extends Component {
   render() {
-    const { stampList } = this.props;
+    const { stampList, userType } = this.props;
     return (
       <div>
-        <h2>적립중인 스탬프</h2>
+        <Background color="#6c5cce" />
+        <StampList stampList={stampList} userType={userType} />
         <div>{JSON.stringify(stampList)}</div>
       </div>
     );

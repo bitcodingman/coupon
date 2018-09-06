@@ -94,7 +94,7 @@ var consumer = {
 
         var sql = `
 					select
-							storeName, couponItemName, couponFinishDate, itemImg
+							couponListId, storeName, couponItemName, couponFinishDate, itemImg
 					from 
 							coupon_config CC join coupon_list CL join item_img I join store S
 					ON

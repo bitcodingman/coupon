@@ -8,7 +8,30 @@
 		padding: 1rem;
 		height: auto;
 
-		.StampWrap {
+		.storeInfo {
+			position: relative;
+			color: $dark-txt-hover;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			margin-bottom: 1rem;
+			
+			h3 { 
+				font-size: 2rem;
+				flex: 1;
+			}
+
+			.stampSave {
+				font-size: 2rem;
+			}
+
+			.date {
+				margin-top: 0.5rem;
+				font-size: 1.4rem;
+				color: $dark-txt-base;
+			}
+		}
+
+		.stampWrap {
 			position: relative;
 			background: #fff;
 			min-height: 40rem;

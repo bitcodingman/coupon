@@ -12,10 +12,10 @@ class ConsumerContainer extends Component {
   }
 
   render() {
-    const { tabSelected, stampList, couponList } = this.props;
+    const { tabSelected, stampList, couponList, userType } = this.props;
     let el;
     if (tabSelected === 'stamp') {
-      el = <SaveContainer stampList={stampList} />;
+      el = <SaveContainer stampList={stampList} userType={userType} />;
     } else if (tabSelected === 'coupon') {
       el = <CouponContainer couponList={couponList} />;
     }
@@ -32,6 +32,7 @@ class ConsumerContainer extends Component {
 export default connect(
   ({ base, consumer }) => ({
     userId: base.data.userId,
+    userType: base.data.userType,
     tabSelected: base.tabSelected,
     stampList: consumer.stampList,
     couponList: consumer.couponList,

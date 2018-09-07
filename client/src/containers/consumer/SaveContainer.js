@@ -9,7 +9,6 @@ class SaveContainer extends Component {
       <div>
         <Background color="#6c5cce" />
         <StampList stampList={stampList} userType={userType} />
-        <div>{JSON.stringify(stampList)}</div>
       </div>
     );
   }

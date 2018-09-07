@@ -3,17 +3,50 @@ import { Link } from 'react-router-dom';
 import './StampInfo.scss';
 import { FiSettings } from 'react-icons/fi';
 
-const StampInfo = ({ stampInfo }) => {
+const StampInfo = ({ stampInfo, userType }) => {
+  if (userType === 0) {
+    return (
+      <div className="StampInfo consumer">
+        <ul className="StampInfoList">
+          <li>
+            <p>매장 연락처</p>
+            <span>{stampInfo.storePhone}</span>
+          </li>
+          <li>
+            <p>매장 주소</p>
+            <span>
+              {`${stampInfo.addressSi} 
+							${stampInfo.addressGu} 
+							${stampInfo.addressDong} 
+							${stampInfo.addressDetail}`}
+            </span>
+          </li>
+          <li>
+            <p>적립기준</p>
+            <span>{stampInfo.stampTerm}</span>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
   const configArr = stampInfo.couponConfig.map(coupon => (
-    <li key={coupon.couponId}>
-      스탬프 적립 {coupon.couponPublishTerm}개 - {coupon.couponItemName}
-    </li>
+    <div key={coupon.couponId}>
+      {coupon.couponPublishTerm}개 - {coupon.couponItemName}
+    </div>
   ));
+
   return (
     <div className="StampInfo">
       <ul className="StampInfoList">
-        <li>적립기준 - {stampInfo.stampTerm}</li>
-        {configArr}
+        <li>
+          <p>적립기준</p>
+          <span>{stampInfo.stampTerm}</span>
+        </li>
+        <li>
+          <p>쿠폰 설정</p>
+          {configArr}
+        </li>
       </ul>
       <Link
         to={`/store/makestamp/${stampInfo.stampId}`}

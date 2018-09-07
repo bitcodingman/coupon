@@ -1,11 +1,27 @@
+@import "utils";
+
 .StampInfo {
+
+	&.consumer {
+		.StampInfoList {
+			padding-bottom: 2rem;
+		}
+	}
 
 	.StampInfoList {
 		padding: 2rem 0 6rem;
 		
 		li {
 			padding: 0.3rem 1rem;
+			font-size: 1.4rem;
+
+			p {
+				font-size: 1.2rem;
+				color: $txt-active;
+			}
+
 		}
+		li+li { margin-top: 0.2rem; }
 	}
 
 	.StampModify {

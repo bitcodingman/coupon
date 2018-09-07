@@ -17,7 +17,7 @@ class StampCard extends Component {
   };
 
   render() {
-    const { stampMaximum, couponConfig } = this.props;
+    const { stampMaximum, couponConfig, saveSum } = this.props;
 
     const stampArr = () => {
       const rows = [];
@@ -38,9 +38,22 @@ class StampCard extends Component {
 
       let el = <span>{stamp}</span>;
 
-      if (coupon) {
+      if (stamp <= saveSum) {
+        el = <span className="save" />;
+      }
+
+      if (coupon && stamp <= saveSum) {
         el = (
-          <span className="tooltipBox" onClick={this.handleTooltip}>
+          <span className="saveCoupon" onClick={this.handleTooltip}>
+            <i className={`icon-${coupon.itemImg}`} />
+            <div className="transition tooltip">{coupon.couponItemName}</div>
+          </span>
+        );
+      }
+
+      if (coupon && stamp > saveSum) {
+        el = (
+          <span onClick={this.handleTooltip}>
             <i className={`icon-${coupon.itemImg}`} />
             <div className="transition tooltip">{coupon.couponItemName}</div>
           </span>

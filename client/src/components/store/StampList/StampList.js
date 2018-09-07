@@ -23,13 +23,13 @@ const StampList = ({ stampList, userType }) => {
       <div key={stampInfo.stampId}>
         {userType === 0 && (
           <div className="storeInfo">
-            <h3>{stampInfo.storeName}</h3>
-            <div className="stampSave">
-              {`${saveSum} / ${stampInfo.stampMaximum}`}
-            </div>
             <div className="date">
               유효기간 : {format(stampInfo.stampPublishDate, 'YYYY-MM-DD')} ~{' '}
               {format(stampInfo.stampFinishDate, 'YYYY-MM-DD')}
+            </div>
+            <h3>{stampInfo.storeName}</h3>
+            <div className="stampSave">
+              {`${saveSum} / ${stampInfo.stampMaximum}`}
             </div>
           </div>
         )}
@@ -37,8 +37,9 @@ const StampList = ({ stampList, userType }) => {
           <StampCard
             stampMaximum={stampInfo.stampMaximum}
             couponConfig={stampInfo.couponConfig}
+            saveSum={saveSum > 0 && saveSum}
           />
-          <StampInfo stampInfo={stampInfo} />
+          <StampInfo stampInfo={stampInfo} userType={userType} />
         </div>
       </div>
     );

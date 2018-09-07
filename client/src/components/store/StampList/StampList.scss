@@ -12,9 +12,16 @@
 			position: relative;
 			color: $dark-txt-hover;
 			display: flex;
-			flex-wrap: wrap-reverse;
+			flex-wrap: wrap;
 			margin-bottom: 1rem;
 			
+			.date {
+				width: 100%;
+				margin-top: 0.5rem;
+				font-size: 1.4rem;
+				color: $dark-txt-base;
+			}
+
 			h3 { 
 				font-size: 2rem;
 				flex: 1;
@@ -22,12 +29,6 @@
 
 			.stampSave {
 				font-size: 2rem;
-			}
-
-			.date {
-				margin-top: 0.5rem;
-				font-size: 1.4rem;
-				color: $dark-txt-base;
 			}
 		}
 

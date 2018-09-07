@@ -27,17 +27,30 @@
 			margin: 3px;
 		}
 
-		span {
+		.save {
 			display: block;
+			position: absolute;
+			top:50%; left: 50%;
+			margin: -30% 0 0 -30%;
+			width: 60%; height: 60%;
+			background: $base-color;
+			border-radius: 50%;
+		}
+
+		span {
+			display: flex;
 			position: absolute;
 			top:50%; left: 50%;
 			margin: -15px 0 0 -15px;
 			width: 30px; height: 30px;
-			text-align: center; line-height: 30px;
 			color: #cbc8dc;
+			justify-content: center;
+			align-items: center;
 
 			i {
-				display: block;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				width: 100%;
 				font-size: 2.6rem;
 				color: $base-color;
@@ -64,8 +77,17 @@
 					transform: scale(1);
 				}
 			}
+
+			&.saveCoupon {
+				background: $base-color;
+				border-radius: 50%;
+				margin: -50% 0 0 -50%;
+				width: 100%; height: 100%;
+
+				i {
+					color: $dark-icon-hover;
+				}
+			}
 		}
-
-
 	}
 }

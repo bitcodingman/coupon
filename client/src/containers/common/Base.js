@@ -3,6 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
+import * as consumerActions from 'store/modules/consumer';
+import Barcode from 'components/consumer/Barcode';
+import Button from 'components/common/Button';
 
 class Base extends Component {
   componentDidMount() {
@@ -28,20 +31,48 @@ class Base extends Component {
     }
   };
 
+  handleToggle = () => {
+    const { ConsumerActions } = this.props;
+    ConsumerActions.barcodeVisibility();
+  };
+
   render() {
-    return <div />;
+    const { userType, logged, barcode, barcodeView } = this.props;
+
+    if (logged && userType === 0) {
+      return (
+        <div>
+          <Button theme="barcode" onClick={this.handleToggle}>
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </Button>
+          <Barcode barcode={barcode} barcodeView={barcodeView} />
+        </div>
+      );
+    }
+    return null;
   }
 }
 
 export default compose(
   withRouter,
   connect(
-    ({ base }) => ({
+    ({ base, consumer }) => ({
+      logged: base.logged,
       userType: base.data.userType,
       storeInfo: base.storeInfo,
+      barcode: base.data.barcode,
+      barcodeView: consumer.barcodeView,
     }),
     dispatch => ({
       BaseActions: bindActionCreators(baseActions, dispatch),
+      ConsumerActions: bindActionCreators(consumerActions, dispatch),
     })
   )
 )(Base);

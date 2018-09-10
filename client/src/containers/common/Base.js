@@ -37,7 +37,7 @@ class Base extends Component {
   };
 
   render() {
-    const { userType, logged, barcode, barcodeView } = this.props;
+    const { userType, logged, user, barcodeView } = this.props;
 
     if (logged && userType === 0) {
       return (
@@ -52,7 +52,7 @@ class Base extends Component {
             <span />
             <span />
           </Button>
-          <Barcode barcode={barcode} barcodeView={barcodeView} />
+          <Barcode user={user} barcodeView={barcodeView} />
         </div>
       );
     }
@@ -67,7 +67,7 @@ export default compose(
       logged: base.logged,
       userType: base.data.userType,
       storeInfo: base.storeInfo,
-      barcode: base.data.barcode,
+      user: base.data,
       barcodeView: consumer.barcodeView,
     }),
     dispatch => ({

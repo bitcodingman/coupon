@@ -22,7 +22,11 @@ class ConsumerContainer extends Component {
 
     return (
       <Fragment>
-        <TabContainer selected={tabSelected} />
+        <TabContainer
+          selected={tabSelected}
+          stampList={stampList}
+          couponList={couponList}
+        />
         {el}
       </Fragment>
     );

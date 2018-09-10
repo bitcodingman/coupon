@@ -1,26 +1,41 @@
 @import "utils";
+@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+128');
 
 .Barcode {
 	padding-top: 5rem;
 	position: fixed;
 	border-radius: 100%;
 	z-index: 10;
-  visibility: hidden;
-	transform: scale(.2);
 	transform-origin: right bottom;
-	right: 5rem; bottom:5rem;
-	width: 0; height: 0;
+	right: 2.5rem; bottom: 2.5rem;
+	width: 5rem; height: 5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background: #fff;
+	overflow: hidden;
 
 	&.active {
 		border-radius: 0;
 		width: 100%; height: 100%;
-		background: #fff;
 		right: 0; bottom:0;
-		visibility: visible;
-		transform: scale(1);
-		transform-origin: right bottom;
+
+		.barcodeBox {
+			opacity: 1;
+		}
+	}
+
+	.barcodeBox {
+		opacity: 0;
+
+		h2 {
+			text-align: center;
+			margin-bottom: 4rem;
+		}
+		p {
+			font-family: 'Libre Barcode 128', cursive;
+			font-size: 6rem;
+			color: #000;
+		}
 	}
 }

@@ -2,8 +2,17 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var router = express.Router();
 var app = express();
+var Hashids = require('hashids');
 
 app.use(bodyParser.json());
+
+/* 사용자 고유 바코드 생성 sample */
+router.get('/barcode', (req, res) => {
+    var hashids = new Hashids('', 12);
+    const id = hashids.encode(1);
+
+    res.json(id);
+});
 
 /* 적립중인 스탬프 가져오기 */
 router.post('/savingStampList', (req, res) => {

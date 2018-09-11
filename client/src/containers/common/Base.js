@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
 import * as consumerActions from 'store/modules/consumer';
-import Barcode from 'components/consumer/Barcode';
+import BarcodeBox from 'components/consumer/BarcodeBox';
 import Button from 'components/common/Button';
 
 class Base extends Component {
@@ -52,7 +52,7 @@ class Base extends Component {
             <span />
             <span />
           </Button>
-          <Barcode user={user} barcodeView={barcodeView} />
+          <BarcodeBox user={user} barcodeView={barcodeView} />
         </div>
       );
     }

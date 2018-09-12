@@ -48,10 +48,7 @@ const StampInfo = ({ stampInfo, userType }) => {
           {configArr}
         </li>
       </ul>
-      <Link
-        to={`/store/makestamp/${stampInfo.stampId}`}
-        className="StampModify"
-      >
+      <Link to={`/makestamp/${stampInfo.stampId}`} className="StampModify">
         <FiSettings />
       </Link>
     </div>

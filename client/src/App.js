@@ -10,7 +10,7 @@ class App extends Component {
       <AppTemplate header={<HeaderContainer />}>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/makestamp" component={MakeStamp} />
+          <Route path="/makestamp/:stampId?" component={MakeStamp} />
           <Route path="/login" component={Login} />
         </Switch>
         <Base />

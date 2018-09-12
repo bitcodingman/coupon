@@ -17,6 +17,7 @@ const MakeStampBox = ({
   onSubmit,
   setCoupon,
   delCoupon,
+  modify,
 }) => {
   const optionArr = () => {
     const options = [];
@@ -36,7 +37,7 @@ const MakeStampBox = ({
   if (!makeStamp.couponConfig.isEmpty()) {
     couponList = makeStamp.couponConfig.map(coupon => (
       <MakeStampCoupon
-        key={coupon}
+        key={coupon.couponPublishTerm}
         coupon={coupon}
         delCoupon={delCoupon}
         makeStamp={makeStamp}
@@ -65,10 +66,15 @@ const MakeStampBox = ({
         name="stampTerm"
         placeholder="스탬프 적립 기준 ex) 음료 1잔당 적립"
         onChange={onChange}
+        value={makeStamp.stampTerm}
       />
 
       {/* 스탬프 최대 개수 선택 */}
-      <select name="stampMaximum" onChange={onChange}>
+      <select
+        name="stampMaximum"
+        onChange={onChange}
+        value={makeStamp.stampMaximum}
+      >
         {stampMaximumSelect}
       </select>
 
@@ -76,7 +82,7 @@ const MakeStampBox = ({
 
       {couponList}
 
-      <Button theme="highlight w100" onClick={onSubmit}>
+      <Button theme="highlight w100" onClick={() => onSubmit(modify)}>
         스탬프카드 만들기
       </Button>
     </div>

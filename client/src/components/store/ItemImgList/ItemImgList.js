@@ -18,11 +18,6 @@ const ItemImgList = ({
       coupon.couponPublishTerm === makeStamp.currentCoupon.couponPublishTerm
   );
 
-  let itemName = '';
-  if (couponConfig) {
-    itemName = couponConfig.couponItemName;
-  }
-
   const ItemImgArr = itemImgList.map(item => {
     const itemList = item.imgList.map(img => {
       let active = false;
@@ -78,7 +73,7 @@ const ItemImgList = ({
           name="couponItemName"
           onChange={onChange}
           onKeyPress={onKeyPress}
-          placeholder={itemName}
+          value={makeStamp.currentCoupon.couponItemName}
         />
         <Button theme="confirm" onClick={setCoupon}>
           확인

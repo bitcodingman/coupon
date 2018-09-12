@@ -3,8 +3,8 @@ import { MakeStampContainer } from 'containers';
 
 class MakeStamp extends Component {
   render() {
-    console.log(123);
-    return <MakeStampContainer />;
+    const { match } = this.props;
+    return <MakeStampContainer modify={match.params} />;
   }
 }
 

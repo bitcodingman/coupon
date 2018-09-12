@@ -82,7 +82,7 @@ router.post('/stampList', (req, res) => {
                 couponId: r[i].couponId,
                 couponPublishTerm: r[i].couponPublishTerm,
                 couponItemName: r[i].couponItemName,
-                imgCategory: r[i].imgCategory,
+                itemImgId: r[i].itemImgId,
                 itemImg: r[i].itemImg,
             });
         }
@@ -114,13 +114,44 @@ router.post('/setStamp', (req, res) => {
         });
     }
 
-    model.store.store.insert_stamp(req.body.stampInfo, (err, r) => {
+    model.store.store.insertStamp(req.body.stampInfo, (err, r) => {
         if (err) {
             throw err;
         }
         return res.json({
             isErr: false,
             msg: '스탬프 정보를 저장했습니다.',
+            data: null,
+        });
+    });
+});
+
+/* 스탬프 수정하기 */
+router.post('/updateStamp', (req, res) => {
+    const { couponConfig, storeId } = req.body.stampInfo;
+    if (is_empty(req.body.stampInfo.stampMaximum)) {
+        return res.json({
+            isErr: true,
+            msg: '스탬프 정보가 없습니다.',
+            data: null,
+        });
+    }
+
+    if (is_empty(couponConfig)) {
+        return res.json({
+            isErr: true,
+            msg: '쿠폰설정이 없습니다.',
+            data: null,
+        });
+    }
+
+    model.store.store.updateStamp(req.body.stampInfo, (err, r) => {
+        if (err) {
+            throw err;
+        }
+        return res.json({
+            isErr: false,
+            msg: '스탬프 정보를 수정했습니다.',
             data: null,
         });
     });

@@ -8,6 +8,7 @@ import * as api from 'lib/api';
 const GET_STAMP_LIST = 'store/GET_STAMP_LIST';
 const GET_ITEM_IMG = 'store/GET_ITEM_IMG';
 const SET_STAMP = 'store/SET_STAMP';
+const UPDATE_STAMP = 'store/UPDATE_STAMP';
 const SHOW_ITEM_IMG = 'store/SHOW_ITEM_IMG';
 const HIDE_ITEM_IMG = 'store/HIDE_ITEM_IMG';
 const CHANGE_INPUT = 'store/CHANGE_INPUT';
@@ -20,11 +21,13 @@ const UPDATE_COUPON_ITEM = 'store/UPDATE_COUPON_ITEM';
 const SORT_COUPON_ITEM = 'store/SORT_COUPON_ITEM';
 const DEL_COUPON_ITEM = 'store/DEL_COUPON_ITEM';
 const COUPON_CONFIG_INIT = 'store/COUPON_CONFIG_INIT';
+const SET_STAMP_MODIFY = 'store/SET_STAMP_MODIFY';
 
 // action creators
 export const getStampList = createAction(GET_STAMP_LIST, api.getStampList);
 export const getItemImg = createAction(GET_ITEM_IMG, api.getItemImg);
 export const setStamp = createAction(SET_STAMP, api.setStamp);
+export const updateStamp = createAction(UPDATE_STAMP, api.updateStamp);
 export const showItemImg = createAction(SHOW_ITEM_IMG);
 export const hideItemImg = createAction(HIDE_ITEM_IMG);
 export const changeInput = createAction(CHANGE_INPUT);
@@ -37,6 +40,7 @@ export const updateCouponItem = createAction(UPDATE_COUPON_ITEM);
 export const sortCouponItem = createAction(SORT_COUPON_ITEM);
 export const delCouponItem = createAction(DEL_COUPON_ITEM);
 export const couponConfigInit = createAction(COUPON_CONFIG_INIT);
+export const setStampModify = createAction(SET_STAMP_MODIFY);
 
 // initial state
 const initialState = Record({
@@ -73,6 +77,10 @@ export default handleActions(
     }),
     ...pender({
       type: SET_STAMP,
+      onSuccess: state => state,
+    }),
+    ...pender({
+      type: UPDATE_STAMP,
       onSuccess: state => state,
     }),
     [SHOW_ITEM_IMG]: state => {
@@ -146,6 +154,22 @@ export default handleActions(
     },
     [COUPON_CONFIG_INIT]: state => {
       return state.set('makeStampForm', initialState.get('makeStampForm'));
+    },
+    [SET_STAMP_MODIFY]: (state, action) => {
+      const modifyObj = Record({
+        stampId: action.payload.stampId,
+        stampTerm: action.payload.stampTerm,
+        stampMaximum: action.payload.stampMaximum,
+        currentCoupon: Record({
+          couponPublishTerm: null,
+          couponItemName: '',
+          itemImgId: null,
+          itemImg: '',
+        })(),
+        couponConfig: List(action.payload.couponConfig),
+        itemImgView: false,
+      })();
+      return state.set('makeStampForm', modifyObj);
     },
   },
   initialState

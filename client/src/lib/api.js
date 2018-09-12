@@ -27,6 +27,10 @@ export const getItemImg = () => axios.get('/api/store/itemimg');
 export const setStamp = stampInfo =>
   axios.post('/api/store/setStamp', { stampInfo });
 
+// 스탬프 수정하기
+export const updateStamp = stampInfo =>
+  axios.post('/api/store/updateStamp', { stampInfo });
+
 //
 //
 //

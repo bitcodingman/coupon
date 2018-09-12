@@ -1,7 +1,29 @@
 'use strict';
 
 var store = {
-    insert_stamp: function(_stampInfo, _callback) {
+    updateStamp: function(_stampInfo, _callback) {
+        const execute = (connection, next) => {
+            let sql = `
+							UPDATE stamp
+							SET stampTerm = ?, stampMaximum = ?, created = ?
+							WHERE stampId = ${_stampInfo.stampId}
+						`;
+
+            connection.query(
+                sql,
+                [_stampInfo.stampTerm, _stampInfo.stampMaximum, new Date()],
+                (err, results) => {
+                    if (err) return next(err);
+
+                    return err ? next(err) : next(null, results.affectedRows);
+                }
+            );
+        };
+
+        engine.rds.transaction(execute, 'cp', _callback);
+    },
+
+    insertStamp: function(_stampInfo, _callback) {
         const execute = (connection, next) => {
             connection.query(
                 'INSERT INTO stamp (storeId, stampTerm, stampMaximum, created) values (?, ?, ?, ? ) ',
@@ -91,7 +113,7 @@ var store = {
             }
         });
 
-        var sql = `select T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, imgCategory, itemImg
+        var sql = `select T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, C.itemImgId, itemImg
             from 
 							stamp T join coupon_config C join item_img I
 						ON
@@ -102,7 +124,10 @@ var store = {
 								C.itemImgId = I.itemImgId
 						AND
 								{where_query}
-						ORDER BY T.created DESC`.replace('{where_query}', where_query);
+						ORDER BY T.created DESC, couponPublishTerm ASC`.replace(
+            '{where_query}',
+            where_query
+        );
 
         engine.rds.rows(sql, values, 'cp', _callback);
     },

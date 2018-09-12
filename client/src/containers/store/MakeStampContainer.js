@@ -10,6 +10,14 @@ import { isEmpty } from 'validator';
 class MakeStampContainer extends Component {
   componentDidMount() {
     this.getItemImgList();
+    const { modify, stampList, StoreActions } = this.props;
+    const stampModify = stampList.find(
+      stamp => stamp.stampId === parseInt(modify.stampId, 10)
+    );
+
+    if (stampModify) {
+      StoreActions.setStampModify(stampModify);
+    }
   }
 
   // 컴포넌트가 사라지기 전에 상태 초기화 할것
@@ -141,9 +149,10 @@ class MakeStampContainer extends Component {
         coupon => coupon.couponPublishTerm === couponConfig.couponPublishTerm
       );
 
-      if (!couponObj) {
+      if (couponObj) {
+        await StoreActions.updateCouponItem(couponConfig);
+      } else {
         await StoreActions.setCouponItem(couponConfig);
-
         if (!this.props.makeStampForm.couponConfig.isEmpty()) {
           const sortArr = await this.props.makeStampForm.couponConfig.sort(
             (a, b) => {
@@ -156,15 +165,12 @@ class MakeStampContainer extends Component {
               return 0;
             }
           );
-          await StoreActions.sortCouponItem(sortArr);
+          StoreActions.sortCouponItem(sortArr);
         }
-      } else {
-        await StoreActions.updateCouponItem(couponConfig);
       }
 
-      await StoreActions.currentCouponInit();
-      await StoreActions.hideItemImg();
-      return true;
+      StoreActions.currentCouponInit();
+      return StoreActions.hideItemImg();
     } catch (err) {
       console.log(err);
       return false;
@@ -182,7 +188,7 @@ class MakeStampContainer extends Component {
     StoreActions.delCouponItem(id);
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async id => {
     try {
       const { StoreActions, history } = this.props;
       const {
@@ -211,15 +217,28 @@ class MakeStampContainer extends Component {
         itemImgId: coupon.itemImgId,
       }));
 
-      const stampInfo = {
-        storeId: this.props.storeId,
-        stampTerm: this.props.makeStampForm.stampTerm,
-        stampMaximum: this.props.makeStampForm.stampMaximum,
-        couponConfig: couponArr,
-      };
+      if (id) {
+        console.log('update');
+        const stampInfo = {
+          stampId: id,
+          storeId: this.props.storeId,
+          stampTerm: this.props.makeStampForm.stampTerm,
+          stampMaximum: this.props.makeStampForm.stampMaximum,
+          couponConfig: couponArr,
+        };
+        await StoreActions.updateStamp(stampInfo);
+      } else {
+        console.log('set');
+        const stampInfo = {
+          storeId: this.props.storeId,
+          stampTerm: this.props.makeStampForm.stampTerm,
+          stampMaximum: this.props.makeStampForm.stampMaximum,
+          couponConfig: couponArr,
+        };
+        await StoreActions.setStamp(stampInfo);
+      }
 
-      await StoreActions.setStamp(stampInfo);
-      await history.push('/');
+      history.push('/');
       return true;
     } catch (err) {
       console.log(err);
@@ -228,7 +247,7 @@ class MakeStampContainer extends Component {
   };
 
   render() {
-    const { itemImgList, makeStampForm, itemImgView } = this.props;
+    const { itemImgList, makeStampForm, itemImgView, modify } = this.props;
     return (
       <div>
         <MakeStampBox
@@ -243,6 +262,7 @@ class MakeStampContainer extends Component {
           onSubmit={this.handleSubmit}
           setCoupon={this.handleSetCoupon}
           delCoupon={this.handleDelete}
+          modify={modify.stampId}
         />
         <HideTab />
       </div>
@@ -258,6 +278,7 @@ export default compose(
       makeStampForm: store.makeStampForm,
       itemImgView: store.makeStampForm.itemImgView,
       storeId: base.storeInfo.storeId,
+      stampList: store.stampList,
     }),
     dispatch => ({
       StoreActions: bindActionCreators(storeActions, dispatch),

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 18-09-04 00:55
+-- 생성 시간: 18-09-13 00:38
 -- 서버 버전: 5.7.21
 -- PHP 버전: 7.1.13
 
@@ -74,7 +74,8 @@ INSERT INTO `coupon_config` (`couponId`, `storeId`, `stampId`, `couponPublishTer
 (57, 2, 59, 12, '아메리카노', 4),
 (58, 2, 59, 18, '수박주스', 3),
 (59, 2, 59, 24, '수박주스', 3),
-(60, 2, 59, 30, '고르곤졸라 피자', 18);
+(60, 2, 59, 30, '고르곤졸라 피자', 18),
+(61, 1, 60, 10, 'ㅁㄴㅇ', 3);
 
 -- --------------------------------------------------------
 
@@ -88,10 +89,18 @@ CREATE TABLE `coupon_list` (
   `userId` int(11) DEFAULT NULL,
   `storeId` int(11) DEFAULT NULL,
   `couponId` int(11) DEFAULT NULL,
-  `couponPublishDate` varchar(50) DEFAULT NULL,
-  `couponUseDate` varchar(50) DEFAULT NULL,
-  `couponFinishDate` varchar(50) DEFAULT NULL
+  `couponPublishDate` datetime DEFAULT NULL,
+  `couponUseDate` datetime DEFAULT NULL,
+  `couponFinishDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 테이블의 덤프 데이터 `coupon_list`
+--
+
+INSERT INTO `coupon_list` (`couponListId`, `stampSaveId`, `userId`, `storeId`, `couponId`, `couponPublishDate`, `couponUseDate`, `couponFinishDate`) VALUES
+(1, 1, 1, 2, 56, '2018-09-05 12:17:59', NULL, '2018-10-05 12:17:59'),
+(2, 1, 1, 2, 57, '2018-09-06 12:17:59', NULL, '2018-10-06 12:17:59');
 
 -- --------------------------------------------------------
 
@@ -139,6 +148,7 @@ INSERT INTO `item_img` (`itemImgId`, `imgCategory`, `itemImg`) VALUES
 CREATE TABLE `stamp` (
   `stampId` int(11) NOT NULL,
   `storeId` int(11) DEFAULT NULL,
+  `stampName` varchar(16) DEFAULT NULL,
   `stampTerm` varchar(40) DEFAULT NULL,
   `stampMaximum` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL
@@ -148,11 +158,12 @@ CREATE TABLE `stamp` (
 -- 테이블의 덤프 데이터 `stamp`
 --
 
-INSERT INTO `stamp` (`stampId`, `storeId`, `stampTerm`, `stampMaximum`, `created`) VALUES
-(56, 1, '음료 1잔당', 10, '2018-08-03 16:34:50'),
-(57, 1, '식사 한끼당', 20, '2018-09-03 16:39:06'),
-(58, 1, '음료 1잔당 적립', 10, '2018-09-04 12:17:59'),
-(59, 2, '음료 한잔 결제시', 30, '2018-08-04 12:30:38');
+INSERT INTO `stamp` (`stampId`, `storeId`, `stampName`, `stampTerm`, `stampMaximum`, `created`) VALUES
+(56, 1, '음료쿠폰A', '음료 1잔당', 10, '2018-08-03 16:34:50'),
+(57, 1, '식사쿠폰', '식사 한끼당', 20, '2018-09-03 16:39:06'),
+(58, 1, '음료쿠폰B', '음료 1잔당 적립', 10, '2018-09-04 12:17:59'),
+(59, 2, '음료쿠폰', '음료 한잔 결제시', 30, '2018-08-04 12:30:38'),
+(60, 1, 'ㅁㅁㅁ', 'ㅁㅁㅁㅁㅁ', 10, '2018-09-12 17:37:49');
 
 -- --------------------------------------------------------
 
@@ -195,7 +206,9 @@ CREATE TABLE `stamp_save_history` (
 
 INSERT INTO `stamp_save_history` (`historyId`, `stampSaveId`, `stampSaveNo`, `stampSaveDate`) VALUES
 (1, 1, 2, '2018-08-06 12:17:59'),
-(2, 1, 3, '2018-08-07 12:17:59');
+(2, 1, 3, '2018-08-07 12:17:59'),
+(3, 1, 4, '2018-09-05 12:17:59'),
+(4, 1, 6, '2018-09-06 12:17:59');
 
 -- --------------------------------------------------------
 
@@ -349,13 +362,13 @@ ALTER TABLE `category`
 -- 테이블의 AUTO_INCREMENT `coupon_config`
 --
 ALTER TABLE `coupon_config`
-  MODIFY `couponId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `couponId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- 테이블의 AUTO_INCREMENT `coupon_list`
 --
 ALTER TABLE `coupon_list`
-  MODIFY `couponListId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `couponListId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 테이블의 AUTO_INCREMENT `item_img`
@@ -367,7 +380,7 @@ ALTER TABLE `item_img`
 -- 테이블의 AUTO_INCREMENT `stamp`
 --
 ALTER TABLE `stamp`
-  MODIFY `stampId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `stampId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- 테이블의 AUTO_INCREMENT `stamp_save`
@@ -379,7 +392,7 @@ ALTER TABLE `stamp_save`
 -- 테이블의 AUTO_INCREMENT `stamp_save_history`
 --
 ALTER TABLE `stamp_save_history`
-  MODIFY `historyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `historyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 테이블의 AUTO_INCREMENT `store`

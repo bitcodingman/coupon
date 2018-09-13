@@ -38,7 +38,7 @@ var consumer = {
 
         var sql = `
 					select
-							T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, itemImg, stampPublishDate, stampFinishDate, storeName, storePhone, addressSi, addressGu, addressDong, addressDetail
+							T.stampId, stampName, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, itemImg, stampPublishDate, stampFinishDate, storeName, storePhone, addressSi, addressGu, addressDong, addressDetail
 					from 
 							store ST join stamp_save SS join stamp T join coupon_config C join item_img I
 					ON

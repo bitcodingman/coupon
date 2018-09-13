@@ -113,9 +113,9 @@ var store = {
             }
         });
 
-        var sql = `select T.stampId, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, C.itemImgId, itemImg
+        var sql = `select T.stampId, stampName, stampTerm, stampMaximum, couponId, couponPublishTerm, couponItemName, C.itemImgId, itemImg
             from 
-							stamp T join coupon_config C join item_img I
+								stamp T join coupon_config C join item_img I
 						ON
 								T.storeId = C.storeId
 						AND 
@@ -132,13 +132,41 @@ var store = {
         engine.rds.rows(sql, values, 'cp', _callback);
     },
 
+    history: function(_query, _callback) {
+        var values = [];
+        var where_query = '1=1';
+
+        if (_query.hasOwnProperty('storeId')) {
+            where_query = util.format('%s AND SS.storeId = ?', where_query);
+            values.push(_query.storeId);
+        }
+
+        var sql = `
+						SELECT
+								historyId, name, stampName, stampSaveNo, stampSaveDate
+						FROM
+								stamp T join stamp_save SS join stamp_save_history SH join user U
+						on
+								T.stampId = SS.stampId
+						and
+								SS.stampSaveId = SH.stampSaveId
+						and
+								SS.userId = U.userId
+						and
+								{where_query}
+						order by SH.stampSaveDate DESC
+				`.replace('{where_query}', where_query);
+
+        engine.rds.rows(sql, values, 'cp', _callback);
+    },
+
     itemImgList: function(_query, _callback) {
         var values = [];
         var where_query = '1=1';
 
         var sql = `SELECT itemImgId, imgCategory, itemImg
 					from 
-						item_img I
+							item_img I
 					where
 							{where_query}`.replace('{where_query}', where_query);
 

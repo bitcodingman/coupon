@@ -7,6 +7,7 @@ import * as api from 'lib/api';
 // action types
 const GET_STAMP_LIST = 'store/GET_STAMP_LIST';
 const GET_ITEM_IMG = 'store/GET_ITEM_IMG';
+const GET_SAVE_HISTORY = 'store/GET_SAVE_HISTORY';
 const SET_STAMP = 'store/SET_STAMP';
 const UPDATE_STAMP = 'store/UPDATE_STAMP';
 const SHOW_ITEM_IMG = 'store/SHOW_ITEM_IMG';
@@ -26,6 +27,10 @@ const SET_STAMP_MODIFY = 'store/SET_STAMP_MODIFY';
 // action creators
 export const getStampList = createAction(GET_STAMP_LIST, api.getStampList);
 export const getItemImg = createAction(GET_ITEM_IMG, api.getItemImg);
+export const getSaveHistory = createAction(
+  GET_SAVE_HISTORY,
+  api.getSaveHistory
+);
 export const setStamp = createAction(SET_STAMP, api.setStamp);
 export const updateStamp = createAction(UPDATE_STAMP, api.updateStamp);
 export const showItemImg = createAction(SHOW_ITEM_IMG);
@@ -44,8 +49,11 @@ export const setStampModify = createAction(SET_STAMP_MODIFY);
 
 // initial state
 const initialState = Record({
+  stampListNo: 0,
   stampList: List([]),
   itemImgList: List([]),
+  saveUserNo: 0,
+  saveHistory: List([]),
   makeStampForm: Record({
     stampTerm: '',
     stampMaximum: 10,
@@ -66,13 +74,36 @@ export default handleActions(
     ...pender({
       type: GET_STAMP_LIST,
       onSuccess: (state, action) => {
-        return state.set('stampList', action.payload.data.data);
+        return state
+          .set('stampListNo', action.payload.data.data.length)
+          .set('stampList', action.payload.data.data);
       },
     }),
     ...pender({
       type: GET_ITEM_IMG,
       onSuccess: (state, action) => {
         return state.set('itemImgList', action.payload.data.data);
+      },
+    }),
+    ...pender({
+      type: GET_SAVE_HISTORY,
+      onSuccess: (state, action) => {
+        const { data: saveHistory } = action.payload.data;
+        const saveUser = [];
+        for (let i = 0; i < saveHistory.length; i++) {
+          let saveUserObj = saveUser.find(
+            user => user.name === saveHistory[i].name
+          );
+          if (!saveUserObj) {
+            saveUserObj = { name: saveHistory[i].name };
+            saveUser.push(saveUserObj);
+          }
+        }
+        console.log(1111111);
+        console.log(saveUser);
+        return state
+          .set('saveUserNo', saveUser.length)
+          .set('saveHistory', action.payload.data.data);
       },
     }),
     ...pender({

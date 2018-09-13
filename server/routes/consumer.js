@@ -70,6 +70,7 @@ router.post('/savingStampList', (req, res) => {
                         addressDong: stampInfo[i].addressDong,
                         addressDetail: stampInfo[i].addressDetail,
                         stampId: stampInfo[i].stampId,
+                        stampName: stampInfo[i].stampName,
                         stampTerm: stampInfo[i].stampTerm,
                         stampMaximum: stampInfo[i].stampMaximum,
                         stampPublishDate: stampInfo[i].stampPublishDate,

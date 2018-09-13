@@ -12,7 +12,14 @@ class ConsumerContainer extends Component {
   }
 
   render() {
-    const { tabSelected, stampList, couponList, userType } = this.props;
+    const {
+      tabSelected,
+      stampList,
+      stampListNo,
+      couponList,
+      couponListNo,
+      userType,
+    } = this.props;
     let el;
     if (tabSelected === 'stamp') {
       el = <SaveContainer stampList={stampList} userType={userType} />;
@@ -24,8 +31,8 @@ class ConsumerContainer extends Component {
       <Fragment>
         <TabContainer
           selected={tabSelected}
-          stampList={stampList}
-          couponList={couponList}
+          stampListNo={stampListNo}
+          couponListNo={couponListNo}
         />
         {el}
       </Fragment>
@@ -39,7 +46,9 @@ export default connect(
     userType: base.data.userType,
     tabSelected: base.tabSelected,
     stampList: consumer.stampList,
+    stampListNo: consumer.stampListNo,
     couponList: consumer.couponList,
+    couponListNo: consumer.couponListNo,
   }),
   dispatch => ({
     ConsumerActions: bindActionCreators(consumerActions, dispatch),

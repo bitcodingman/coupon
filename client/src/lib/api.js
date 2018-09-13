@@ -31,6 +31,10 @@ export const setStamp = stampInfo =>
 export const updateStamp = stampInfo =>
   axios.post('/api/store/updateStamp', { stampInfo });
 
+// 회원 적립내역 가져오기
+export const getSaveHistory = storeId =>
+  axios.post('/api/store/saveHistory', { storeId });
+
 //
 //
 //

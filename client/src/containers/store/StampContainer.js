@@ -13,6 +13,7 @@ class StampContainer extends Component {
   componentDidMount() {
     const { StoreActions, storeInfo } = this.props;
     StoreActions.getStampList(storeInfo.storeId);
+    StoreActions.getSaveHistory(storeInfo.storeId);
   }
 
   shouldComponentUpdate(nextProps) {

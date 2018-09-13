@@ -11,14 +11,22 @@ class TabContainer extends Component {
   };
 
   render() {
-    const { stampList, couponList, visible, selected, userType } = this.props;
+    const {
+      stampListNo,
+      couponListNo,
+      visible,
+      selected,
+      userType,
+      saveUserNo,
+    } = this.props;
     if (!visible) return null;
     return (
       <Tab
         userType={userType}
         selected={selected}
-        stampList={stampList}
-        couponList={couponList}
+        stampListNo={stampListNo}
+        saveUserNo={saveUserNo}
+        couponListNo={couponListNo}
         onSelect={this.handleSelect}
       />
     );

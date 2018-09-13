@@ -8,6 +8,7 @@ const StampInfo = ({ stampInfo, userType }) => {
     return (
       <div className="StampInfo consumer">
         <ul className="StampInfoList">
+          <li className="marker">{stampInfo.stampName}</li>
           <li>
             <p>매장 연락처</p>
             <span>{stampInfo.storePhone}</span>
@@ -39,6 +40,7 @@ const StampInfo = ({ stampInfo, userType }) => {
   return (
     <div className="StampInfo">
       <ul className="StampInfoList">
+        <li className="marker">{stampInfo.stampName}</li>
         <li>
           <p>적립기준</p>
           <span>{stampInfo.stampTerm}</span>

@@ -20,7 +20,9 @@ export const barcodeVisibility = createAction(BARCODE_VISIBILITY);
 // initial state
 const initialState = Record({
   barcodeView: false,
+  stampListNo: 0,
   stampList: List([]),
+  couponListNo: 0,
   couponList: List([]),
 })();
 
@@ -30,13 +32,17 @@ export default handleActions(
     ...pender({
       type: GET_SAVING_STAMP_LIST,
       onSuccess: (state, action) => {
-        return state.set('stampList', action.payload.data.data);
+        return state
+          .set('stampListNo', action.payload.data.data.length)
+          .set('stampList', action.payload.data.data);
       },
     }),
     ...pender({
       type: GET_COUPON_LIST,
       onSuccess: (state, action) => {
-        return state.set('couponList', action.payload.data.data);
+        return state
+          .set('couponListNo', action.payload.data.data.length)
+          .set('couponList', action.payload.data.data);
       },
     }),
     [BARCODE_VISIBILITY]: state => {

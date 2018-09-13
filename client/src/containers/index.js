@@ -2,7 +2,7 @@ export { default as HomeContainer } from './home/HomeContainer';
 export { default as LoginContainer } from './login/LoginContainer';
 export { default as StoreContainer } from './store/StoreContainer';
 export { default as StampContainer } from './store/StampContainer';
-export { default as GuestContainer } from './store/GuestContainer';
+export { default as HistoryContainer } from './store/HistoryContainer';
 export { default as MakeStampContainer } from './store/MakeStampContainer';
 export { default as ConsumerContainer } from './consumer/ConsumerContainer';
 export { default as SaveContainer } from './consumer/SaveContainer';

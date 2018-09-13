@@ -8,20 +8,27 @@ const TabItem = ({ children, tab, count, selected, onSelect }) => (
   >
     <p>{children}</p>
     <h3>
-      {!count ? '0' : count.length}
+      {count}
       <span>{tab === 'consumer' ? '명' : '개'}</span>
     </h3>
   </div>
 );
 
-const Tab = ({ stampList, couponList, selected, onSelect, userType }) => {
+const Tab = ({
+  stampListNo,
+  couponListNo,
+  selected,
+  onSelect,
+  userType,
+  saveUserNo,
+}) => {
   if (userType === 0) {
     return (
       <div className="Tab">
         <TabItem
           tab="stamp"
           selected={selected}
-          count={stampList}
+          count={stampListNo}
           onSelect={onSelect}
         >
           적립중인 스탬프
@@ -29,7 +36,7 @@ const Tab = ({ stampList, couponList, selected, onSelect, userType }) => {
         <TabItem
           tab="coupon"
           selected={selected}
-          count={couponList}
+          count={couponListNo}
           onSelect={onSelect}
         >
           사용가능한 쿠폰
@@ -37,17 +44,23 @@ const Tab = ({ stampList, couponList, selected, onSelect, userType }) => {
       </div>
     );
   }
+
   return (
     <div className="Tab">
       <TabItem
         tab="stamp"
         selected={selected}
-        count={stampList}
+        count={stampListNo}
         onSelect={onSelect}
       >
         우리매장 스탬프
       </TabItem>
-      <TabItem tab="consumer" selected={selected} onSelect={onSelect}>
+      <TabItem
+        tab="consumer"
+        selected={selected}
+        count={saveUserNo}
+        onSelect={onSelect}
+      >
         적립중인 회원
       </TabItem>
     </div>

@@ -46,6 +46,30 @@ router.get('/itemimg', (req, res) => {
     });
 });
 
+/* 회원 적립내역 가져오기 */
+router.post('/saveHistory', (req, res) => {
+    let query = { storeId: req.body.storeId };
+    model.store.store.history(query, (err, r) => {
+        if (err) {
+            throw err;
+        }
+
+        if (is_empty(r)) {
+            return res.json({
+                isErr: true,
+                msg: '적립내역을 찾지 못했습니다.',
+                data: null,
+            });
+        }
+
+        return res.json({
+            isErr: false,
+            msg: '적립내역을 가져왔습니다.',
+            data: r,
+        });
+    });
+});
+
 /* 스탬프 리스트 가져오기 */
 router.post('/stampList', (req, res) => {
     let query = [{ key: 'storeId', value: req.body.storeId }];
@@ -72,6 +96,7 @@ router.post('/stampList', (req, res) => {
             if (is_empty(stampObj)) {
                 stampObj = {
                     stampId: r[i].stampId,
+                    stampName: r[i].stampName,
                     stampTerm: r[i].stampTerm,
                     stampMaximum: r[i].stampMaximum,
                     couponConfig: [],

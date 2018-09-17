@@ -1,6 +1,10 @@
 @import "utils";
 
 .NoStamp{
+	&.margin {
+		margin-top: 3rem;
+	}
+
 	.NoStampCard {
 		width: 80%;
 		margin: 0 auto;

@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import * as baseActions from 'store/modules/base';
+import * as consumerActions from 'store/modules/consumer';
+import * as storeActions from 'store/modules/store';
 import Header from 'components/common/Header';
 
 class HeaderContainer extends Component {
@@ -12,8 +14,19 @@ class HeaderContainer extends Component {
   }
 
   handleLogout = async () => {
-    const { BaseActions, history } = this.props;
+    const {
+      BaseActions,
+      ConsumerActions,
+      StoreActions,
+      userType,
+      history,
+    } = this.props;
     try {
+      if (userType === 0) {
+        await ConsumerActions.init();
+      } else {
+        await StoreActions.init();
+      }
       await BaseActions.logout();
       localStorage.logged = 'false';
       history.push('/');
@@ -33,10 +46,13 @@ export default compose(
   connect(
     ({ base }) => ({
       base,
+      userType: base.data.userType,
       logged: base.logged,
     }),
     dispatch => ({
       BaseActions: bindActionCreators(baseActions, dispatch),
+      ConsumerActions: bindActionCreators(consumerActions, dispatch),
+      StoreActions: bindActionCreators(storeActions, dispatch),
     })
   )
 )(HeaderContainer);

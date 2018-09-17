@@ -59,6 +59,16 @@ const MakeStampBox = ({
         />
       ) : null}
 
+      {/* 스탬프 이름 입력 */}
+      <input
+        type="text"
+        id="stampName"
+        name="stampName"
+        placeholder="스탬프 이름 ex) 음료 쿠폰"
+        onChange={onChange}
+        value={makeStamp.stampName}
+      />
+
       {/* 스탬프 적립 기준 입력 */}
       <input
         type="text"

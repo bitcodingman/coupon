@@ -192,10 +192,16 @@ class MakeStampContainer extends Component {
     try {
       const { StoreActions, history } = this.props;
       const {
+        stampName,
         stampTerm,
         stampMaximum,
         couponConfig,
       } = this.props.makeStampForm;
+
+      if (isEmpty(stampName, { ignore_whitespace: true })) {
+        alert('스탬프 이름을 입력하세요.');
+        return false;
+      }
 
       if (isEmpty(stampTerm, { ignore_whitespace: true })) {
         alert('스탬프 적립 기준을 입력하세요.');
@@ -222,6 +228,7 @@ class MakeStampContainer extends Component {
         const stampInfo = {
           stampId: id,
           storeId: this.props.storeId,
+          stampName: this.props.makeStampForm.stampName,
           stampTerm: this.props.makeStampForm.stampTerm,
           stampMaximum: this.props.makeStampForm.stampMaximum,
           couponConfig: couponArr,
@@ -231,6 +238,7 @@ class MakeStampContainer extends Component {
         console.log('set');
         const stampInfo = {
           storeId: this.props.storeId,
+          stampName: this.props.makeStampForm.stampName,
           stampTerm: this.props.makeStampForm.stampTerm,
           stampMaximum: this.props.makeStampForm.stampMaximum,
           couponConfig: couponArr,

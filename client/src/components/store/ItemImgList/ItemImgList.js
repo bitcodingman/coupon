@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import './ItemImgList.scss';
 import Button from 'components/common/Button';
 import CustomScrollbar from 'components/common/CustomScrollbar';
@@ -35,7 +36,9 @@ const ItemImgList = ({
       return (
         <div
           key={img.itemImgId}
-          className={`img ${active ? 'active' : ''}`}
+          className={classNames('img', {
+            active,
+          })}
           onClick={() => imgSelect(img.itemImgId, img.itemImg)}
         >
           <i className={`icon-${img.itemImg}`} />

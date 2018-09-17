@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import './MakeStampCard.scss';
 
 class MakeStampCard extends Component {
@@ -30,9 +31,15 @@ class MakeStampCard extends Component {
         <div
           key={stamp}
           onClick={() => onSelect(stamp)}
-          className={`Stamp ${stampList.length >= 16 ? 'small' : ''} ${
-            itemImg ? 'active' : ''
-          }`}
+          className={classNames(
+            'Stamp',
+            {
+              small: stampList.length >= 16,
+            },
+            {
+              active: itemImg,
+            }
+          )}
         >
           {!couponConfig ? (
             <span>{stamp}</span>

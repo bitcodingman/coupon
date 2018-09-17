@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import './StampCard.scss';
 
 class StampCard extends Component {
@@ -63,7 +64,9 @@ class StampCard extends Component {
       return (
         <div
           key={stamp}
-          className={`Stamp ${stampList.length >= 16 && 'small'}`}
+          className={classNames('Stamp', {
+            small: stampList.length >= 16,
+          })}
         >
           {el}
         </div>

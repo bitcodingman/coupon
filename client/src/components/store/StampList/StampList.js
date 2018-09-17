@@ -2,13 +2,13 @@ import React from 'react';
 import format from 'date-fns/format';
 import StampCard from 'components/common/StampCard';
 import StampInfo from 'components/common/StampInfo';
-import NoStamp from 'components/store/NoStamp';
+import NoStamp from 'components/common/NoStamp';
 import SwipeableViews from 'react-swipeable-views';
 import './StampList.scss';
 
 const StampList = ({ stampList, userType }) => {
-  if (!stampList || stampList.length <= 0) {
-    return <NoStamp />;
+  if (!stampList || stampList.size <= 0) {
+    return <NoStamp userType={userType} />;
   }
 
   const newStampList = stampList.map(stampInfo => {

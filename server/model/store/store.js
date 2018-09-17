@@ -5,13 +5,18 @@ var store = {
         const execute = (connection, next) => {
             let sql = `
 							UPDATE stamp
-							SET stampTerm = ?, stampMaximum = ?, created = ?
+							SET stampName = ?, stampTerm = ?, stampMaximum = ?, created = ?
 							WHERE stampId = ${_stampInfo.stampId}
 						`;
 
             connection.query(
                 sql,
-                [_stampInfo.stampTerm, _stampInfo.stampMaximum, new Date()],
+                [
+                    _stampInfo.stampName,
+                    _stampInfo.stampTerm,
+                    _stampInfo.stampMaximum,
+                    new Date(),
+                ],
                 (err, results) => {
                     if (err) return next(err);
 
@@ -26,9 +31,10 @@ var store = {
     insertStamp: function(_stampInfo, _callback) {
         const execute = (connection, next) => {
             connection.query(
-                'INSERT INTO stamp (storeId, stampTerm, stampMaximum, created) values (?, ?, ?, ? ) ',
+                'INSERT INTO stamp (storeId, stampName, stampTerm, stampMaximum, created) values (?, ?, ?, ?, ? ) ',
                 [
                     _stampInfo.storeId,
+                    _stampInfo.stampName,
                     _stampInfo.stampTerm,
                     _stampInfo.stampMaximum,
                     new Date(),

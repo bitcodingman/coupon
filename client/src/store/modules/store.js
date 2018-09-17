@@ -5,6 +5,7 @@ import { pender } from 'redux-pender';
 import * as api from 'lib/api';
 
 // action types
+const INIT = 'store/INIT';
 const GET_STAMP_LIST = 'store/GET_STAMP_LIST';
 const GET_ITEM_IMG = 'store/GET_ITEM_IMG';
 const GET_SAVE_HISTORY = 'store/GET_SAVE_HISTORY';
@@ -25,6 +26,7 @@ const COUPON_CONFIG_INIT = 'store/COUPON_CONFIG_INIT';
 const SET_STAMP_MODIFY = 'store/SET_STAMP_MODIFY';
 
 // action creators
+export const init = createAction(INIT);
 export const getStampList = createAction(GET_STAMP_LIST, api.getStampList);
 export const getItemImg = createAction(GET_ITEM_IMG, api.getItemImg);
 export const getSaveHistory = createAction(
@@ -55,6 +57,7 @@ const initialState = Record({
   saveUserNo: 0,
   saveHistory: List([]),
   makeStampForm: Record({
+    stampName: '',
     stampTerm: '',
     stampMaximum: 10,
     currentCoupon: Record({
@@ -71,12 +74,18 @@ const initialState = Record({
 // reducer
 export default handleActions(
   {
+    [INIT]: state => {
+      return initialState;
+    },
     ...pender({
       type: GET_STAMP_LIST,
       onSuccess: (state, action) => {
-        return state
-          .set('stampListNo', action.payload.data.data.length)
-          .set('stampList', action.payload.data.data);
+        if (action.payload.data.data) {
+          return state
+            .set('stampListNo', action.payload.data.data.length)
+            .set('stampList', action.payload.data.data);
+        }
+        return state.set('stampList', initialState.get('stampList'));
       },
     }),
     ...pender({
@@ -89,21 +98,22 @@ export default handleActions(
       type: GET_SAVE_HISTORY,
       onSuccess: (state, action) => {
         const { data: saveHistory } = action.payload.data;
-        const saveUser = [];
-        for (let i = 0; i < saveHistory.length; i++) {
-          let saveUserObj = saveUser.find(
-            user => user.name === saveHistory[i].name
-          );
-          if (!saveUserObj) {
-            saveUserObj = { name: saveHistory[i].name };
-            saveUser.push(saveUserObj);
+        if (saveHistory) {
+          const saveUser = [];
+          for (let i = 0; i < saveHistory.length; i++) {
+            let saveUserObj = saveUser.find(
+              user => user.name === saveHistory[i].name
+            );
+            if (!saveUserObj) {
+              saveUserObj = { name: saveHistory[i].name };
+              saveUser.push(saveUserObj);
+            }
           }
+          return state
+            .set('saveUserNo', saveUser.length)
+            .set('saveHistory', action.payload.data.data);
         }
-        console.log(1111111);
-        console.log(saveUser);
-        return state
-          .set('saveUserNo', saveUser.length)
-          .set('saveHistory', action.payload.data.data);
+        return state.set('saveHistory', initialState.get('saveHistory'));
       },
     }),
     ...pender({
@@ -189,6 +199,7 @@ export default handleActions(
     [SET_STAMP_MODIFY]: (state, action) => {
       const modifyObj = Record({
         stampId: action.payload.stampId,
+        stampName: action.payload.stampName,
         stampTerm: action.payload.stampTerm,
         stampMaximum: action.payload.stampMaximum,
         currentCoupon: Record({
